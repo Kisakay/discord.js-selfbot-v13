@@ -38,6 +38,7 @@ exports.ThreadMemberFlags = require('./util/ThreadMemberFlags');
 exports.UserFlags = require('./util/UserFlags');
 exports.Util = require('./util/Util');
 exports.version = require('../package.json').version;
+exports.TOTP = require('./util/Totp');
 
 // Managers
 exports.ApplicationCommandManager = require('./managers/ApplicationCommandManager');
