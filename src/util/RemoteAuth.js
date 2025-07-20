@@ -310,19 +310,6 @@ class DiscordAuthWebsocket extends EventEmitter {
     this.emit(Event.CLOSED);
   }
 
-  /**
-   * Generate QR code for user to scan (Terminal)
-   * @returns {void}
-   */
-  generateQR() {
-    if (!this.#fingerprint) return;
-    require('qrcode').toString(this.AuthURL, { type: 'utf8', errorCorrectionLevel: 'L' }, (err, url) => {
-      if (err) {
-        //
-      }
-      console.log(url);
-    });
-  }
 
   #findRealToken() {
     return fetch(`https://discord.com/api/v9/users/@me/remote-auth/login`, {

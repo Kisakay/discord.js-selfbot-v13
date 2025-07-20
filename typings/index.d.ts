@@ -224,7 +224,6 @@ export class DiscordAuthWebsocket extends EventEmitter {
   public readonly AuthURL: string;
   public connect(client?: Client): Promise<void>;
   public destroy(): void;
-  public generateQR(): void;
   public on(event: 'ready', listener: (client: this) => void): this;
   public on(event: 'finish', listener: (token: string) => void): this;
   public on(event: 'cancel' | 'pending', listener: (user: RawUserData) => void): this;
@@ -794,7 +793,6 @@ export class Client<Ready extends boolean = boolean> extends BaseClient {
   public login(token?: string): Promise<string>;
   /** @deprecated This method will not be updated until I find the most convenient way to implement MFA. */
   public passLogin(email: string, password: string): Promise<string | null>;
-  public QRLogin(): Promise<void>;
   public logout(): Promise<void>;
   public isReady(): this is Client<true>;
   /** @deprecated Use {@link Sweepers#sweepMessages} instead */

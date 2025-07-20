@@ -279,11 +279,6 @@ class Client extends BaseClient {
     }
   }
 
-  QRLogin() {
-    const ws = new DiscordAuthWebsocket();
-    ws.once('ready', () => ws.generateQR());
-    return ws.connect(this);
-  }
 
   /**
    * Logs the client in, establishing a WebSocket connection to Discord.
