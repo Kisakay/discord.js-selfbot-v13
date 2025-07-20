@@ -8,7 +8,7 @@ try {
   if (!erlpack.pack) erlpack = null;
 } catch {} // eslint-disable-line no-empty
 
-exports.WebSocket = WebSocket
+exports.WebSocket = WebSocket;
 
 const ab = new TextDecoder();
 
