@@ -8,7 +8,6 @@ const { setTimeout } = require('node:timers');
 const { fetch } = require('undici');
 const { UserAgent } = require('./Constants');
 const Options = require('./Options');
-
 const defaultClientOptions = Options.createDefault();
 
 const baseURL = 'https://discord.com/ra/';
@@ -86,6 +85,8 @@ class DiscordAuthWebsocket extends EventEmitter {
   }
 
   #createWebSocket(url) {
+    /* eslint-env browser, node */
+    /* global WebSocket:readonly */
     this.#ws = new WebSocket(url, {
       headers: {
         Origin: 'https://discord.com',

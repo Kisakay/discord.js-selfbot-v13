@@ -2,7 +2,6 @@
 
 let erlpack;
 const { Buffer } = require('node:buffer');
-
 try {
   erlpack = require('erlpack');
   if (!erlpack.pack) erlpack = null;
