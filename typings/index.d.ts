@@ -3639,38 +3639,6 @@ export class VoiceChannelEffect {
 }
 
 
-export class VoiceState extends Base {
-  private constructor(guild: Guild, data: RawVoiceStateData);
-  public readonly channel: VoiceBasedChannel | DMChannel | GroupDMChannel | null;
-  public channelId: Snowflake | null;
-  public readonly deaf: boolean | null;
-  public guild: Guild;
-  public id: Snowflake;
-  public readonly member: GuildMember | null;
-  public readonly user: User | null;
-  public readonly mute: boolean | null;
-  public selfDeaf: boolean | null;
-  public selfMute: boolean | null;
-  public serverDeaf: boolean | null;
-  public serverMute: boolean | null;
-  public sessionId: string | null;
-  public streaming: boolean;
-  public selfVideo: boolean | null;
-  public suppress: boolean;
-  public requestToSpeakTimestamp: number | null;
-
-  public setDeaf(deaf?: boolean, reason?: string): Promise<GuildMember>;
-  public setMute(mute?: boolean, reason?: string): Promise<GuildMember>;
-  public disconnect(reason?: string): Promise<GuildMember>;
-  public setChannel(channel: GuildVoiceChannelResolvable | null, reason?: string): Promise<GuildMember>;
-  public setRequestToSpeak(request?: boolean): Promise<void>;
-  public setSuppressed(suppressed?: boolean): Promise<void>;
-  public setStatus(status?: string): Promise<void>;
-  public getPreview(): Promise<string>;
-  public postPreview(base64Image: string): Promise<void>;
-  public fetch(force?: boolean): Promise<VoiceState>;
-}
-
 export class Webhook extends WebhookMixin() {
   private constructor(client: Client, data?: RawWebhookData);
   public avatar: string;
@@ -5649,7 +5617,6 @@ export interface ClientEvents extends BaseClientEvents {
   typingStart: [typing: Typing];
   userUpdate: [oldUser: User | PartialUser, newUser: User];
   voiceChannelEffectSend: [voiceChannelEffect: VoiceChannelEffect];
-  voiceStateUpdate: [oldState: VoiceState, newState: VoiceState];
   webhookUpdate: [channel: TextChannel | NewsChannel | VoiceChannel | ForumChannel | MediaChannel | StageChannel];
   shardDisconnect: [closeEvent: CloseEvent, shardId: number];
   shardError: [error: Error, shardId: number];

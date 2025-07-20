@@ -144,7 +144,6 @@ exports.ThreadOnlyChannel = require('./structures/ThreadOnlyChannel');
 exports.ThreadMember = require('./structures/ThreadMember');
 exports.Typing = require('./structures/Typing');
 exports.User = require('./structures/User');
-exports.VoiceState = require('./structures/VoiceState');
 exports.Webhook = require('./structures/Webhook');
 exports.Widget = require('./structures/Widget');
 exports.WidgetMember = require('./structures/WidgetMember');
