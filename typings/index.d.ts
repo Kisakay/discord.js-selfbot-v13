@@ -779,7 +779,6 @@ export class Client<Ready extends boolean = boolean> extends BaseClient {
   public fetchGuildPreview(guild: GuildResolvable): Promise<GuildPreview>;
   public fetchInvite(invite: InviteResolvable, options?: ClientFetchInviteOptions): Promise<Invite>;
   public fetchGuildTemplate(template: GuildTemplateResolvable): Promise<GuildTemplate>;
-  public fetchVoiceRegions(): Promise<Collection<string, VoiceRegion>>;
   public fetchSticker(id: Snowflake): Promise<Sticker>;
   public fetchPremiumStickerPacks(): Promise<Collection<Snowflake, StickerPack>>;
   public fetchWebhook(id: Snowflake, token?: string): Promise<Webhook>;
@@ -3639,17 +3638,6 @@ export class VoiceChannelEffect {
   public get channel(): VoiceChannel | null;
 }
 
-export class VoiceRegion {
-  private constructor(data: RawVoiceRegionData);
-  public custom: boolean;
-  public deprecated: boolean;
-  public id: string;
-  public name: string;
-  public optimal: boolean;
-  /** @deprecated This property is no longer being sent by the API. */
-  public vip: boolean;
-  public toJSON(): unknown;
-}
 
 export class VoiceState extends Base {
   private constructor(guild: Guild, data: RawVoiceStateData);

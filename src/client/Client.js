@@ -26,13 +26,11 @@ const GuildTemplate = require('../structures/GuildTemplate');
 const Invite = require('../structures/Invite');
 const { Sticker } = require('../structures/Sticker');
 const StickerPack = require('../structures/StickerPack');
-const VoiceRegion = require('../structures/VoiceRegion');
 const Webhook = require('../structures/Webhook');
 const Widget = require('../structures/Widget');
 const { Events, Status } = require('../util/Constants');
 const DataResolver = require('../util/DataResolver');
 const Intents = require('../util/Intents');
-const DiscordAuthWebsocket = require('../util/RemoteAuth');
 const Sweepers = require('../util/Sweepers');
 const TOTP = require('../util/Totp');
 
