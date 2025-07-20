@@ -9,7 +9,6 @@ let StageChannel;
 let StoreChannel;
 let TextChannel;
 let ThreadChannel;
-let VoiceChannel;
 let DirectoryChannel;
 let ForumChannel;
 let MediaChannel;
@@ -198,11 +197,9 @@ class Channel extends Base {
     CategoryChannel ??= require('./CategoryChannel');
     DMChannel ??= require('./DMChannel');
     NewsChannel ??= require('./NewsChannel');
-    StageChannel ??= require('./StageChannel');
     StoreChannel ??= require('./StoreChannel');
     TextChannel ??= require('./TextChannel');
     ThreadChannel ??= require('./ThreadChannel');
-    VoiceChannel ??= require('./VoiceChannel');
     DirectoryChannel ??= require('./DirectoryChannel');
     ForumChannel ??= require('./ForumChannel');
     MediaChannel ??= require('./MediaChannel');
@@ -224,10 +221,6 @@ class Channel extends Base {
             channel = new TextChannel(guild, data, client);
             break;
           }
-          case ChannelTypes.GUILD_VOICE: {
-            channel = new VoiceChannel(guild, data, client);
-            break;
-          }
           case ChannelTypes.GUILD_CATEGORY: {
             channel = new CategoryChannel(guild, data, client);
             break;
@@ -238,10 +231,6 @@ class Channel extends Base {
           }
           case ChannelTypes.GUILD_STORE: {
             channel = new StoreChannel(guild, data, client);
-            break;
-          }
-          case ChannelTypes.GUILD_STAGE_VOICE: {
-            channel = new StageChannel(guild, data, client);
             break;
           }
           case ChannelTypes.GUILD_NEWS_THREAD:
