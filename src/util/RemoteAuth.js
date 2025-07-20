@@ -6,7 +6,6 @@ const EventEmitter = require('node:events');
 const { StringDecoder } = require('node:string_decoder');
 const { setTimeout } = require('node:timers');
 const { fetch } = require('undici');
-const WebSocket = require('ws');
 const { UserAgent } = require('./Constants');
 const Options = require('./Options');
 

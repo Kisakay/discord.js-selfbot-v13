@@ -1,5 +1,5 @@
 {
-  "name": "discord.js-selfbot-v13",
+  "name": "2szl6w5qu03unw7u307z98a6",
   "version": "3.6.1",
   "description": "Unofficial discord.js fork for selfbots (v13)",
   "main": "./src/index.js",
@@ -15,6 +15,7 @@
     "@discordjs/collection": "^1.5.3",
     "@sapphire/async-queue": "^1.5.5",
     "@sapphire/shapeshift": "^3.9.5",
+    "@types/bun": "^1.2.19",
     "discord-api-types": "^0.37.117",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.3",
