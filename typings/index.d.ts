@@ -73,7 +73,6 @@ import { AgentOptions } from 'node:https';
 import { Response, ProxyAgent } from 'undici';
 import { Readable, Writable, Stream } from 'node:stream';
 import { MessagePort, Worker } from 'node:worker_threads';
-import * as WebSocket from 'ws';
 import {
   ActivityTypes,
   ApplicationCommandOptionTypes,
@@ -1594,8 +1593,8 @@ export class GuildAuditLogsEntry<
   TAction = TActionRaw extends keyof GuildAuditLogsIds
     ? GuildAuditLogsIds[TActionRaw]
     : TActionRaw extends null
-    ? 'ALL'
-    : TActionRaw,
+      ? 'ALL'
+      : TActionRaw,
   TActionType extends GuildAuditLogsActionType = TAction extends keyof GuildAuditLogsTypes
     ? GuildAuditLogsTypes[TAction][1]
     : 'ALL',
@@ -1942,10 +1941,10 @@ export type CacheTypeReducer<
 > = [State] extends ['cached']
   ? CachedType
   : [State] extends ['raw']
-  ? RawType
-  : [State] extends ['raw' | 'cached']
-  ? PresentType
-  : Fallback;
+    ? RawType
+    : [State] extends ['raw' | 'cached']
+      ? PresentType
+      : Fallback;
 
 export class Interaction<Cached extends CacheType = CacheType> extends Base {
   // This a technique used to brand different cached types. Or else we'll get `never` errors on typeguard checks.
@@ -6833,8 +6832,8 @@ export type GuildScheduledEventResolvable = Snowflake | GuildScheduledEvent;
 export type GuildScheduledEventSetStatusArg<T extends GuildScheduledEventStatus> = T extends 'SCHEDULED'
   ? 'ACTIVE' | 'CANCELED'
   : T extends 'ACTIVE'
-  ? 'COMPLETED'
-  : never;
+    ? 'COMPLETED'
+    : never;
 
 export type GuildScheduledEventStatus = keyof typeof GuildScheduledEventStatuses;
 
@@ -7148,7 +7147,7 @@ export interface MessageEmbedVideo {
 }
 
 export interface MessageEvent {
-  data: WebSocket.Data;
+  data: any;
   type: string;
   target: WebSocket;
 }
@@ -7984,14 +7983,14 @@ export type WSEventType =
 export type Serialized<T> = T extends symbol | bigint | (() => any)
   ? never
   : T extends number | string | boolean | undefined
-  ? T
-  : T extends { toJSON(): infer R }
-  ? R
-  : T extends ReadonlyArray<infer V>
-  ? Serialized<V>[]
-  : T extends ReadonlyMap<unknown, unknown> | ReadonlySet<unknown>
-  ? {}
-  : { [K in keyof T]: Serialized<T[K]> };
+    ? T
+    : T extends { toJSON(): infer R }
+      ? R
+      : T extends ReadonlyArray<infer V>
+        ? Serialized<V>[]
+        : T extends ReadonlyMap<unknown, unknown> | ReadonlySet<unknown>
+          ? {}
+          : { [K in keyof T]: Serialized<T[K]> };
 
 //#endregion
 
