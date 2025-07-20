@@ -158,48 +158,12 @@ class DMChannel extends Channel {
   }
 
   /**
-   * The user in this voice-based channel
-   * @type {Collection<Snowflake, User>}
-   * @readonly
-   */
-  get voiceUsers() {
-    const coll = new Collection();
-    for (const state of this.client.voiceStates.cache.values()) {
-      if (state.channelId === this.id && state.user) {
-        coll.set(state.id, state.user);
-      }
-    }
-    return coll;
-  }
-
-  /**
    * Get current shard
    * @type {WebSocketShard}
    * @readonly
    */
   get shard() {
     return this.client.ws.shards.first();
-  }
-
-  /**
-   * The voice state adapter for this client that can be used with @discordjs/voice to play audio in DM / Group DM channels.
-   * @type {?Function}
-   * @readonly
-   */
-  get voiceAdapterCreator() {
-    return methods => {
-      this.client.voice.adapters.set(this.id, methods);
-      return {
-        sendPayload: data => {
-          if (this.shard.status !== Status.READY) return false;
-          this.shard.send(data);
-          return true;
-        },
-        destroy: () => {
-          this.client.voice.adapters.delete(this.id);
-        },
-      };
-    };
   }
 
   // These are here only for documentation purposes - they are implemented by TextBasedChannel

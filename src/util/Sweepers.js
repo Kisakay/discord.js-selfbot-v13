@@ -282,15 +282,6 @@ class Sweepers {
   }
 
   /**
-   * Sweeps all guild voice states and removes the ones which are indicated by the filter.
-   * @param {Function} filter The function used to determine which voice states will be removed from the caches.
-   * @returns {number} Amount of voice states that were removed from the caches
-   */
-  sweepVoiceStates(filter) {
-    return this._sweepGuildDirectProp('voiceStates', filter, { outputName: 'voice states' }).items;
-  }
-
-  /**
    * Cancels all sweeping intervals
    * @returns {void}
    */

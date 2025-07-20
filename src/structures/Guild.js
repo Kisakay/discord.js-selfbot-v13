@@ -22,7 +22,6 @@ const GuildStickerManager = require('../managers/GuildStickerManager');
 const PresenceManager = require('../managers/PresenceManager');
 const RoleManager = require('../managers/RoleManager');
 const StageInstanceManager = require('../managers/StageInstanceManager');
-const VoiceStateManager = require('../managers/VoiceStateManager');
 const {
   ChannelTypes,
   DefaultMessageNotificationLevels,
@@ -87,12 +86,6 @@ class Guild extends AnonymousGuild {
      * @type {PresenceManager}
      */
     this.presences = new PresenceManager(this.client);
-
-    /**
-     * A manager of the voice states of this guild
-     * @type {VoiceStateManager}
-     */
-    this.voiceStates = new VoiceStateManager(this);
 
     /**
      * A manager of the stage instances of this guild
@@ -511,13 +504,6 @@ class Guild extends AnonymousGuild {
       this.scheduledEvents.cache.clear();
       for (const scheduledEvent of data.guild_scheduled_events) {
         this.scheduledEvents._add(scheduledEvent);
-      }
-    }
-
-    if (data.voice_states) {
-      this.voiceStates.cache.clear();
-      for (const voiceState of data.voice_states) {
-        this.voiceStates._add(voiceState);
       }
     }
 
@@ -1473,7 +1459,6 @@ class Guild extends AnonymousGuild {
       createdTimestamp: true,
       nameAcronym: true,
       presences: false,
-      voiceStates: false,
     });
     json.iconURL = this.iconURL();
     json.splashURL = this.splashURL();
@@ -1574,30 +1559,6 @@ class Guild extends AnonymousGuild {
     });
     this.vanityURLCode = data.code;
     this.vanityURLUses = data.uses;
-
-    return data;
-  }
-
-  /**
-   * The voice state adapter for this guild that can be used with @discordjs/voice to play audio in voice
-   * and stage channels.
-   * @type {Function}
-   * @readonly
-   */
-  get voiceAdapterCreator() {
-    return methods => {
-      this.client.voice.adapters.set(this.id, methods);
-      return {
-        sendPayload: data => {
-          if (this.shard.status !== Status.READY) return false;
-          this.shard.send(data);
-          return true;
-        },
-        destroy: () => {
-          this.client.voice.adapters.delete(this.id);
-        },
-      };
-    };
   }
 
   /**

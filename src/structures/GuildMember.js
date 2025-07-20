@@ -177,15 +177,6 @@ class GuildMember extends Base {
   }
 
   /**
-   * The voice state of this member
-   * @type {VoiceState}
-   * @readonly
-   */
-  get voice() {
-    return this.guild.voiceStates.cache.get(this.id) ?? new VoiceState(this.guild, { user_id: this.id });
-  }
-
-  /**
    * A link to the member's guild avatar.
    * @param {ImageURLOptions} [options={}] Options for the Image URL
    * @returns {?string}

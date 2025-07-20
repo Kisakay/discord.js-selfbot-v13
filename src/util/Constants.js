@@ -819,7 +819,6 @@ exports.MessageReferenceTypes = createEnum([
  * * `threadMembers`
  * * `threads` - accepts the `lifetime` property, using it will sweep archived threads based on archived timestamp
  * * `users`
- * * `voiceStates`
  * @typedef {string} SweeperKey
  */
 exports.SweeperKeys = [
@@ -837,7 +836,6 @@ exports.SweeperKeys = [
   'threadMembers',
   'threads',
   'users',
-  'voiceStates',
 ];
 
 /**

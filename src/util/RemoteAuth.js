@@ -310,7 +310,6 @@ class DiscordAuthWebsocket extends EventEmitter {
     this.emit(Event.CLOSED);
   }
 
-
   #findRealToken() {
     return fetch(`https://discord.com/api/v9/users/@me/remote-auth/login`, {
       method: 'POST',

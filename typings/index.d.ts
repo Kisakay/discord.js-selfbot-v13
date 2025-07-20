@@ -20,7 +20,6 @@ import {
   underscore,
   userMention,
 } from '@discordjs/builders';
-import { RtpPacket } from 'werift-rtp';
 import { Collection } from '@discordjs/collection';
 import {
   APIActionRowComponent,
@@ -769,11 +768,9 @@ export class Client<Ready extends boolean = boolean> extends BaseClient {
   public uptime: If<Ready, number>;
   public user: If<Ready, ClientUser>;
   public users: UserManager;
-  public voice: ClientVoiceManager;
   public ws: WebSocketManager;
   public notes: UserNoteManager;
   public relationships: RelationshipManager;
-  public voiceStates: VoiceStateManager;
   public sessions: SessionManager;
   public presences: PresenceManager;
   public billing: BillingManager;
@@ -1057,11 +1054,9 @@ export class VoiceConnection extends EventEmitter {
   public readonly dispatcher: AudioDispatcher;
   public readonly videoDispatcher?: VideoDispatcher;
   public player: object;
-  public receiver: VoiceReceiver;
   public speaking: Readonly<Speaking>;
   public videoStatus: boolean;
   public status: VoiceStatus;
-  public readonly voice: VoiceState | null;
   public voiceManager: ClientVoiceManager;
   public videoCodec: VideoCodec;
   public streamConnection: StreamConnection | null;
@@ -1129,58 +1124,6 @@ export class StreamConnectionReadonly extends VoiceConnection {
   public override playAudio(): AudioDispatcher;
   /** @deprecated removed */
   public override playVideo(): VideoDispatcher;
-}
-
-export class Recorder<Ready extends boolean = boolean, T = any> extends EventEmitter {
-  constructor(receiver: T, options: { ffmpegArgs: string[]; channels: number; frameDuration: number });
-  private promise: Promise<void>;
-  public readonly receiver: T;
-  public portUdpH264: number;
-  public portUdpOpus: number;
-  public ready: Ready;
-  public stream: If<Ready, ChildProcessWithoutNullStreams>;
-  public socket: Socket;
-  public output: Writable | string;
-  public userId: Snowflake;
-  public feed(payload: RtpPacket | BufferResolvable): void;
-  public on(event: 'ready' | 'closed', listener: (recorder: Recorder<true, T>) => void): this;
-  public once(event: 'ready' | 'closed', listener: (recorder: Recorder<true, T>) => void): this;
-  public destroy(): void;
-}
-
-export class VoiceReceiver extends EventEmitter {
-  constructor(connection: VoiceConnection);
-  public createStream(
-    user: UserResolvable,
-    options?: { mode?: 'opus' | 'pcm'; end?: 'silence' | 'manual'; paddingSilence?: boolean },
-  ): Readable;
-  public createVideoStream(user: UserResolvable, output: Writable | string): Recorder<false, any>;
-
-  public on(event: 'debug', listener: (error: Error | string) => void): this;
-  public on(
-    event: 'receiverData',
-    listener: (
-      ssrcData: {
-        userId: Snowflake;
-        hasVideo: boolean;
-      },
-      packet: RtpPacket,
-    ) => void,
-  ): this;
-  public on(event: string, listener: (...args: any[]) => void): this;
-
-  public once(event: 'debug', listener: (error: Error | string) => void): this;
-  public once(
-    event: 'receiverData',
-    listener: (
-      ssrcData: {
-        userId: Snowflake;
-        hasVideo: boolean;
-      },
-      packet: RtpPacket,
-    ) => void,
-  ): this;
-  public once(event: string, listener: (...args: any[]) => void): this;
 }
 
 export { Collection } from '@discordjs/collection';
@@ -1421,7 +1364,6 @@ export class DMChannel extends TextBasedChannelMixin(Channel, [
   public cancelMessageRequest(): Promise<this>;
   public sync(): void;
   public ring(): Promise<void>;
-  public readonly voiceAdapterCreator: InternalDiscordGatewayAdapterCreator;
   public readonly shard: WebSocketShard;
   public readonly voiceUsers: Collection<Snowflake, User>;
 }
@@ -1498,8 +1440,6 @@ export class Guild extends AnonymousGuild {
   public systemChannelFlags: Readonly<SystemChannelFlags>;
   public systemChannelId: Snowflake | null;
   public vanityURLUses: number | null;
-  public readonly voiceAdapterCreator: InternalDiscordGatewayAdapterCreator;
-  public readonly voiceStates: VoiceStateManager;
   public readonly widgetChannel: TextChannel | NewsChannel | VoiceBasedChannel | ForumChannel | MediaChannel | null;
   public widgetChannelId: Snowflake | null;
   public widgetEnabled: boolean | null;
@@ -1712,7 +1652,6 @@ export class GuildMember extends PartialTextBasedChannel(Base) {
   public readonly presence: Presence | null;
   public readonly roles: GuildMemberRoleManager;
   public user: User;
-  public readonly voice: VoiceState;
   public avatarURL(options?: ImageURLOptions): string | null;
   public bannerURL(options?: ImageURLOptions): string | null;
   public ban(options?: BanOptions): Promise<GuildMember>;
@@ -2770,7 +2709,6 @@ export class GroupDMChannel extends TextBasedChannelMixin(Channel, [
   public deleteInvite(invite: InviteResolvable): Promise<this>;
   public sync(): void;
   public ring(recipients?: UserResolvable[]): Promise<void>;
-  public readonly voiceAdapterCreator: InternalDiscordGatewayAdapterCreator;
   public readonly shard: WebSocketShard;
   public readonly voiceUsers: Collection<Snowflake, User>;
 }
@@ -3276,9 +3214,6 @@ export class Sweepers {
   public sweepUsers(
     filter: CollectionSweepFilter<SweeperDefinitions['users'][0], SweeperDefinitions['users'][1]>,
   ): number;
-  public sweepVoiceStates(
-    filter: CollectionSweepFilter<SweeperDefinitions['voiceStates'][0], SweeperDefinitions['voiceStates'][1]>,
-  ): number;
 
   public static archivedThreadSweepFilter(
     lifetime?: number,
@@ -3566,7 +3501,6 @@ export class User extends PartialTextBasedChannel(Base) {
   public readonly tag: string;
   public username: string;
   public readonly note: string | undefined;
-  public readonly voice?: VoiceState;
   public readonly relationship: RelationshipTypes;
   public readonly friendNickname: string | null | undefined;
   public clan: UserClan | null;
@@ -4778,12 +4712,6 @@ export class UserManager extends CachedManager<Snowflake, User, UserResolvable> 
   public send(user: UserResolvable, options: string | MessagePayload | MessageOptions): Promise<Message>;
 }
 
-export class VoiceStateManager extends CachedManager<Snowflake, VoiceState, typeof VoiceState> {
-  private constructor(guild: Guild, iterable?: Iterable<RawVoiceStateData>);
-  public guild: Guild;
-  public fetch(member: GuildMemberResolvable | '@me', options?: BaseFetchOptions): Promise<VoiceState>;
-}
-
 //#endregion
 
 //#region Mixins
@@ -5538,7 +5466,6 @@ export interface Caches {
   ThreadManager: [manager: typeof ThreadManager, holds: typeof ThreadChannel];
   ThreadMemberManager: [manager: typeof ThreadMemberManager, holds: typeof ThreadMember];
   UserManager: [manager: typeof UserManager, holds: typeof User];
-  VoiceStateManager: [manager: typeof VoiceStateManager, holds: typeof VoiceState];
 }
 
 export type CacheConstructors = {
@@ -7702,7 +7629,6 @@ export interface SweeperDefinitions {
   threadMembers: [Snowflake, ThreadMember];
   threads: [Snowflake, ThreadChannel, true];
   users: [Snowflake, User];
-  voiceStates: [Snowflake, VoiceState];
 }
 
 export type SweeperOptions = {
