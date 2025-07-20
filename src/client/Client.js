@@ -396,21 +396,6 @@ class Client extends BaseClient {
   }
 
   /**
-   * Obtains the available voice regions from Discord.
-   * @returns {Promise<Collection<string, VoiceRegion>>}
-   * @example
-   * client.fetchVoiceRegions()
-   *   .then(regions => console.log(`Available regions are: ${regions.map(region => region.name).join(', ')}`))
-   *   .catch(console.error);
-   */
-  async fetchVoiceRegions() {
-    const apiRegions = await this.api.voice.regions.get();
-    const regions = new Collection();
-    for (const region of apiRegions) regions.set(region.id, new VoiceRegion(region));
-    return regions;
-  }
-
-  /**
    * Obtains a sticker from Discord.
    * @param {Snowflake} id The sticker's id
    * @returns {Promise<Sticker>}

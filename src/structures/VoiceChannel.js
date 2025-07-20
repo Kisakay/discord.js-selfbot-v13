@@ -72,20 +72,6 @@ class VoiceChannel extends BaseGuildVoiceChannel {
    */
 
   /**
-   * Sets the RTC region of the channel.
-   * @name VoiceChannel#setRTCRegion
-   * @param {?string} rtcRegion The new region of the channel. Set to `null` to remove a specific region for the channel
-   * @param {string} [reason] The reason for modifying this region.
-   * @returns {Promise<VoiceChannel>}
-   * @example
-   * // Set the RTC region to sydney
-   * voiceChannel.setRTCRegion('sydney');
-   * @example
-   * // Remove a fixed region for this channel - let Discord decide automatically
-   * voiceChannel.setRTCRegion(null, 'We want to let Discord decide.');
-   */
-
-  /**
    * Sets the user limit of the channel.
    * @name VoiceChannel#setUserLimit
    * @param {number} userLimit The new user limit

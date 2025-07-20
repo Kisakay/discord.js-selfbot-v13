@@ -43,15 +43,6 @@ class CallState extends Base {
   }
 
   /**
-   * Sets the voice region of the call
-   * @param {string} region Region of the call
-   * @returns {Promise<void>}
-   */
-  setRTCRegion(region) {
-    return this.client.api.channels(this.channelId).call.patch({ data: { region } });
-  }
-
-  /**
    * The list of user ID who is ringing
    * @type {Collection<Snowflake, User>}
    */

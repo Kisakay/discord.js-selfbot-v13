@@ -627,7 +627,6 @@ export class BaseGuildVoiceChannel extends TextBasedChannelMixin(GuildChannel, [
   public videoQualityMode: VideoQualityMode | null;
   public status?: string;
   public createInvite(options?: CreateInviteOptions): Promise<Invite>;
-  public setRTCRegion(rtcRegion: string | null, reason?: string): Promise<this>;
   public fetchInvites(cache?: boolean): Promise<Collection<string, Invite>>;
   public setBitrate(bitrate: number, reason?: string): Promise<VoiceChannel>;
   public setUserLimit(userLimit: number, reason?: string): Promise<VoiceChannel>;
@@ -2162,7 +2161,6 @@ export class CallState extends Base {
   public region: string;
   public readonly channel?: DMChannel | GroupDMChannel;
   public readonly ringing: Collection<Snowflake, User>;
-  public setRTCRegion(): Promise<void>;
 }
 export class MessageActionRow<
   T extends MessageActionRowComponent | ModalActionRowComponent = MessageActionRowComponent,
