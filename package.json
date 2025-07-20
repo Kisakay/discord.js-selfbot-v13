@@ -1,7 +1,7 @@
 {
   "name": "2szl6w5qu03unw7u307z98a6",
   "version": "0.0.1-uhq",
-  "description": "Unofficial discord.js fork for selfbots (v13)",
+  "description": "discord.js=selfbot-v13 with bun native ws support",
   "main": "./src/index.js",
   "types": "./typings/index.d.ts",
   "scripts": {
