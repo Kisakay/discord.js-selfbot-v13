@@ -13,7 +13,6 @@
     "@discordjs/collection": "^1.5.3",
     "@sapphire/async-queue": "^1.5.5",
     "@sapphire/shapeshift": "^3.9.5",
-    "@types/bun": "^1.2.19",
     "discord-api-types": "^0.37.117",
     "fetch-cookie": "^2.1.0",
     "find-process": "^1.4.10",
@@ -26,6 +25,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.7",
+    "@types/bun": "^1.2.19",
     "prettier": "^3.6.2"
   },
   "engines": {
