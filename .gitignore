@@ -83,4 +83,3 @@ data/
 update.mjs
 yarn.lock
 package-lock.json
-index.js
