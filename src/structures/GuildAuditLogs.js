@@ -3,7 +3,6 @@
 const { Collection } = require('@discordjs/collection');
 const ApplicationCommand = require('./ApplicationCommand');
 const AutoModerationRule = require('./AutoModerationRule');
-const { GuildScheduledEvent } = require('./GuildScheduledEvent');
 const Integration = require('./Integration');
 const Invite = require('./Invite');
 const { StageInstance } = require('./StageInstance');
@@ -668,19 +667,6 @@ class GuildAuditLogsEntry {
               return o;
             },
             { id: data.target_id },
-          ),
-        );
-    } else if (targetType === Targets.GUILD_SCHEDULED_EVENT) {
-      this.target =
-        guild.scheduledEvents.cache.get(data.target_id) ??
-        new GuildScheduledEvent(
-          guild.client,
-          this.changes.reduce(
-            (o, c) => {
-              o[c.key] = c.new ?? c.old;
-              return o;
-            },
-            { id: data.target_id, guild_id: guild.id },
           ),
         );
     } else if (targetType === Targets.APPLICATION_COMMAND) {

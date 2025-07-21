@@ -1,9 +1,7 @@
 'use strict';
 
 const Base = require('./Base');
-const { GuildScheduledEvent } = require('./GuildScheduledEvent');
 const IntegrationApplication = require('./IntegrationApplication');
-const InviteStageInstance = require('./InviteStageInstance');
 const { Error } = require('../errors');
 const { Endpoints } = require('../util/Constants');
 const InviteFlags = require('../util/InviteFlags');
@@ -224,25 +222,8 @@ class Invite extends Base {
       this._expiresTimestamp ??= null;
     }
 
-    if ('stage_instance' in data) {
-      /**
-       * The stage instance data if there is a public {@link StageInstance} in the stage channel this invite is for
-       * @type {?InviteStageInstance}
-       */
-      this.stageInstance = new InviteStageInstance(this.client, data.stage_instance, this.channel.id, this.guild.id);
-    } else {
-      this.stageInstance ??= null;
-    }
-
-    if ('guild_scheduled_event' in data) {
-      /**
-       * The guild scheduled event data if there is a {@link GuildScheduledEvent} in the channel this invite is for
-       * @type {?GuildScheduledEvent}
-       */
-      this.guildScheduledEvent = new GuildScheduledEvent(this.client, data.guild_scheduled_event);
-    } else {
-      this.guildScheduledEvent ??= null;
-    }
+    this.stageInstance ??= null;
+    this.guildScheduledEvent ??= null;
 
     if ('flags' in data) {
       /**
