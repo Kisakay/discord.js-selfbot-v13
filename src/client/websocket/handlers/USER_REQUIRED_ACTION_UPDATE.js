@@ -1,5 +1,4 @@
 'use strict';
-
 module.exports = (client, { d: data }) => {
   let msg;
   switch (data.required_action) {
@@ -10,7 +9,6 @@ module.exports = (client, { d: data }) => {
     }
     case 'AGREEMENTS': {
       msg = 'You need to accept the new Terms of Service and Privacy Policy.';
-      // https://discord.com/api/v9/users/@me/agreements
       client.api
         .users('@me')
         .agreements.patch({

@@ -1,11 +1,8 @@
 'use strict';
-
 const Action = require('./Action');
-
 class GuildChannelsPositionUpdate extends Action {
   handle(data) {
     const client = this.client;
-
     const guild = client.guilds.cache.get(data.guild_id);
     if (guild) {
       for (const partialChannel of data.channels) {
@@ -13,9 +10,7 @@ class GuildChannelsPositionUpdate extends Action {
         if (channel) channel.rawPosition = partialChannel.position;
       }
     }
-
     return { guild };
   }
 }
-
 module.exports = GuildChannelsPositionUpdate;

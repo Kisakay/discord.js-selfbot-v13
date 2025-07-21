@@ -1,5 +1,4 @@
 'use strict';
-
 const Buffer = require('node:buffer').Buffer;
 const { setTimeout } = require('node:timers');
 const makeFetchCookie = require('fetch-cookie');
@@ -7,12 +6,9 @@ const { CookieJar } = require('tough-cookie');
 const { fetch: fetchOriginal, FormData, buildConnector, Client, ProxyAgent } = require('undici');
 const { ciphers } = require('../util/Constants');
 const Util = require('../util/Util');
-
 const cookieJar = new CookieJar();
 const fetch = makeFetchCookie(fetchOriginal, cookieJar);
-
 let agent = null;
-
 class APIRequest {
   constructor(rest, method, path, options) {
     this.rest = rest;
@@ -21,11 +17,8 @@ class APIRequest {
     this.route = options.route;
     this.options = options;
     this.retries = 0;
-
     this.fullUserAgent = this.client.options.http.headers['User-Agent'];
-
     this.client.options.ws.properties.browser_user_agent = this.fullUserAgent;
-
     let queryString = '';
     if (options.query) {
       const query = Object.entries(options.query)
@@ -35,7 +28,6 @@ class APIRequest {
     }
     this.path = `${path}${queryString && `?${queryString}`}`;
   }
-
   make(captchaKey, captchaRqToken) {
     if (!agent) {
       const r_ = Util.checkUndiciProxyAgent(this.client.options.http.agent);
@@ -50,13 +42,11 @@ class APIRequest {
         });
       }
     }
-
     const API =
       this.options.versioned === false
         ? this.client.options.http.api
         : `${this.client.options.http.api}/v${this.client.options.http.version}`;
     const url = API + this.path;
-
     let headers = {
       accept: '*/*',
       'accept-language': 'en-US',
@@ -78,12 +68,9 @@ class APIRequest {
       'User-Agent': this.fullUserAgent,
       priority: 'u=1, i',
     };
-
     if (this.options.auth !== false) headers.Authorization = this.rest.getAuth();
     if (this.options.reason) headers['X-Audit-Log-Reason'] = encodeURIComponent(this.options.reason);
     if (this.options.headers) headers = Object.assign(headers, this.options.headers);
-
-    // Delete all headers if undefined
     for (const [key, value] of Object.entries(headers)) {
       if (value === undefined) delete headers[key];
     }
@@ -92,28 +79,20 @@ class APIRequest {
         'User-Agent': this.client.options.http.headers['User-Agent'],
       };
     }
-
-    // Some options
     if (this.options.DiscordContext) {
       headers['X-Context-Properties'] = Buffer.from(JSON.stringify(this.options.DiscordContext), 'utf8').toString(
         'base64',
       );
     }
-
     if (this.options.mfaToken) {
       headers['X-Discord-Mfa-Authorization'] = this.options.mfaToken;
     }
-
-    // Captcha
     if (captchaKey && typeof captchaKey == 'string') headers['X-Captcha-Key'] = captchaKey;
     if (captchaRqToken && typeof captchaRqToken == 'string') headers['X-Captcha-Rqtoken'] = captchaRqToken;
-
     let body;
     if (this.options.files?.length) {
       body = new FormData();
       for (const [index, file] of this.options.files.entries()) {
-        // Why undici#FormData doesn't support file stream?
-        // Hacky way to support file stream
         if (file?.file) {
           body.set(file.key ?? `files[${index}]`, {
             [Symbol.toStringTag]: 'File',
@@ -129,7 +108,6 @@ class APIRequest {
           body.append('payload_json', JSON.stringify(this.options.data));
         }
       }
-      // eslint-disable-next-line eqeqeq
     } else if (this.options.data != null) {
       if (this.options.usePayloadJSON) {
         body = new FormData();
@@ -139,11 +117,10 @@ class APIRequest {
         headers['Content-Type'] = 'application/json';
       }
     }
-
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.client.options.restRequestTimeout).unref();
     return fetch(url, {
-      method: this.method.toUpperCase(), // Undici doesn't normalize "patch" into "PATCH" (which surprisingly follows the spec).
+      method: this.method.toUpperCase(), 
       headers,
       body,
       signal: controller.signal,
@@ -153,5 +130,4 @@ class APIRequest {
     }).finally(() => clearTimeout(timeout));
   }
 }
-
 module.exports = APIRequest;

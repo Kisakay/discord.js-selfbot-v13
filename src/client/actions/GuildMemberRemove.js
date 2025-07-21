@@ -1,9 +1,7 @@
 'use strict';
-
 const Action = require('./Action');
 const { deletedGuildMembers } = require('../../structures/GuildMember');
 const { Events, Status } = require('../../util/Constants');
-
 class GuildMemberRemoveAction extends Action {
   handle(data, shard) {
     const client = this.client;
@@ -15,12 +13,6 @@ class GuildMemberRemoveAction extends Action {
       if (member) {
         deletedGuildMembers.add(member);
         guild.members.cache.delete(member.id);
-        /**
-         * Emitted whenever a member leaves a guild, or is kicked.
-         * @event Client#guildMemberRemove
-         * @param {GuildMember} member The member that has left/been kicked from the guild
-         * @deprecated See {@link https://github.com/aiko-chan-ai/discord.js-selfbot-v13/issues/197 this issue} for more information.
-         */
         if (shard.status === Status.READY) client.emit(Events.GUILD_MEMBER_REMOVE, member);
       }
       guild.presences.cache.delete(data.user.id);
@@ -28,5 +20,4 @@ class GuildMemberRemoveAction extends Action {
     return { guild, member };
   }
 }
-
 module.exports = GuildMemberRemoveAction;

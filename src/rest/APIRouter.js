@@ -1,6 +1,5 @@
 'use strict';
-
-const noop = () => {}; // eslint-disable-line no-empty-function
+const noop = () => {}; 
 const methods = ['get', 'post', 'delete', 'patch', 'put'];
 const reflectors = [
   'toString',
@@ -10,7 +9,6 @@ const reflectors = [
   Symbol.toPrimitive,
   Symbol.for('nodejs.util.inspect.custom'),
 ];
-
 function buildRoute(manager) {
   const route = [''];
   const handler = {
@@ -19,11 +17,8 @@ function buildRoute(manager) {
       if (methods.includes(name)) {
         const routeBucket = [];
         for (let i = 0; i < route.length; i++) {
-          // Reactions routes and sub-routes all share the same bucket
           if (route[i - 1] === 'reactions') break;
-          // Literal ids should only be taken account if they are the Major id (the Channel/Guild id)
           if (/\d{16,19}/g.test(route[i]) && !/channels|guilds/.test(route[i - 1])) routeBucket.push(':id');
-          // All other parts of the route should be considered as part of the bucket identifier
           else routeBucket.push(route[i]);
         }
         return options =>
@@ -43,11 +38,10 @@ function buildRoute(manager) {
       return new Proxy(noop, handler);
     },
     apply(target, _, args) {
-      route.push(...args.filter(x => x != null)); // eslint-disable-line eqeqeq
+      route.push(...args.filter(x => x != null)); 
       return new Proxy(noop, handler);
     },
   };
   return new Proxy(noop, handler);
 }
-
 module.exports = buildRoute;

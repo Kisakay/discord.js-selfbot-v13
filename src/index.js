@@ -1,17 +1,10 @@
 'use strict';
-
-// "Root" classes (starting points)
 exports.BaseClient = require('./client/BaseClient');
 exports.Client = require('./client/Client');
-/** @deprecated This will be removed in the next major version */
 exports.Shard = require('./sharding/Shard');
-/** @deprecated This will be removed in the next major version */
 exports.ShardClientUtil = require('./sharding/ShardClientUtil');
-/** @deprecated This will be removed in the next major version */
 exports.ShardingManager = require('./sharding/ShardingManager');
 exports.WebhookClient = require('./client/WebhookClient');
-
-// Utilities
 exports.ActivityFlags = require('./util/ActivityFlags');
 exports.ApplicationFlags = require('./util/ApplicationFlags');
 exports.AttachmentFlags = require('./util/AttachmentFlags');
@@ -38,8 +31,6 @@ exports.ThreadMemberFlags = require('./util/ThreadMemberFlags');
 exports.UserFlags = require('./util/UserFlags');
 exports.Util = require('./util/Util');
 exports.version = require('../package.json').version;
-
-// Managers
 exports.ApplicationCommandManager = require('./managers/ApplicationCommandManager');
 exports.ApplicationCommandPermissionsManager = require('./managers/ApplicationCommandPermissionsManager');
 exports.AutoModerationRuleManager = require('./managers/AutoModerationRuleManager');
@@ -71,8 +62,6 @@ exports.WebSocketManager = require('./client/websocket/WebSocketManager');
 exports.WebSocketShard = require('./client/websocket/WebSocketShard');
 exports.RelationshipManager = require('./managers/RelationshipManager');
 exports.UserNoteManager = require('./managers/UserNoteManager');
-
-// Structures
 exports.Activity = require('./structures/Presence').Activity;
 exports.AnonymousGuild = require('./structures/AnonymousGuild');
 exports.Application = require('./structures/interfaces/Application');
@@ -146,9 +135,7 @@ exports.Widget = require('./structures/Widget');
 exports.WidgetMember = require('./structures/WidgetMember');
 exports.WelcomeChannel = require('./structures/WelcomeChannel');
 exports.WelcomeScreen = require('./structures/WelcomeScreen');
-
 exports.WebSocket = require('./WebSocket');
-
 exports.CustomStatus = require('./structures/Presence').CustomStatus;
 exports.RichPresence = require('./structures/Presence').RichPresence;
 exports.SpotifyRPC = require('./structures/Presence').SpotifyRPC;

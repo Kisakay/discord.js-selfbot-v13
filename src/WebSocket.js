@@ -1,20 +1,14 @@
 'use strict';
-
 let erlpack;
 const { Buffer } = require('node:buffer');
 try {
   erlpack = require('erlpack');
   if (!erlpack.pack) erlpack = null;
-} catch {} // eslint-disable-line no-empty
-
+} catch {} 
 exports.WebSocket = WebSocket;
-
 const ab = new TextDecoder();
-
 exports.encoding = erlpack ? 'etf' : 'json';
-
 exports.pack = erlpack ? erlpack.pack : JSON.stringify;
-
 exports.unpack = (data, type) => {
   if (exports.encoding === 'json' || type === 'json') {
     if (typeof data !== 'string') {
@@ -25,7 +19,6 @@ exports.unpack = (data, type) => {
   if (!Buffer.isBuffer(data)) data = Buffer.from(new Uint8Array(data));
   return erlpack.unpack(data);
 };
-
 exports.create = (gateway, query = {}, ...args) => {
   const [g, q] = gateway.split('?');
   query.encoding = exports.encoding;
@@ -34,5 +27,4 @@ exports.create = (gateway, query = {}, ...args) => {
   const ws = new exports.WebSocket(`${g}?${query}`, ...args);
   return ws;
 };
-
 for (const state of ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED']) exports[state] = exports.WebSocket[state];

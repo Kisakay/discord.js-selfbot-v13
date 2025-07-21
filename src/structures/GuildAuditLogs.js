@@ -1,5 +1,4 @@
 'use strict';
-
 const { Collection } = require('@discordjs/collection');
 const ApplicationCommand = require('./ApplicationCommand');
 const AutoModerationRule = require('./AutoModerationRule');
@@ -11,32 +10,6 @@ const Webhook = require('./Webhook');
 const { OverwriteTypes, PartialTypes, AutoModerationRuleTriggerTypes } = require('../util/Constants');
 const SnowflakeUtil = require('../util/SnowflakeUtil');
 const Util = require('../util/Util');
-
-/**
- * The target type of an entry. Here are the available types:
- * * GUILD
- * * CHANNEL
- * * USER
- * * ROLE
- * * INVITE
- * * WEBHOOK
- * * EMOJI
- * * MESSAGE
- * * INTEGRATION
- * * STAGE_INSTANCE
- * * STICKER
- * * THREAD
- * * GUILD_SCHEDULED_EVENT
- * * APPLICATION_COMMAND
- * * AUTO_MODERATION
- * @typedef {string} AuditLogTargetType
- */
-
-/**
- * Key mirror of all available audit log targets.
- * @name GuildAuditLogs.Targets
- * @type {Object<string, string>}
- */
 const Targets = {
   ALL: 'ALL',
   GUILD: 'GUILD',
@@ -56,72 +29,6 @@ const Targets = {
   AUTO_MODERATION: 'AUTO_MODERATION',
   UNKNOWN: 'UNKNOWN',
 };
-
-/**
- * The action of an entry. Here are the available actions:
- * * ALL: null
- * * GUILD_UPDATE: 1
- * * CHANNEL_CREATE: 10
- * * CHANNEL_UPDATE: 11
- * * CHANNEL_DELETE: 12
- * * CHANNEL_OVERWRITE_CREATE: 13
- * * CHANNEL_OVERWRITE_UPDATE: 14
- * * CHANNEL_OVERWRITE_DELETE: 15
- * * MEMBER_KICK: 20
- * * MEMBER_PRUNE: 21
- * * MEMBER_BAN_ADD: 22
- * * MEMBER_BAN_REMOVE: 23
- * * MEMBER_UPDATE: 24
- * * MEMBER_ROLE_UPDATE: 25
- * * MEMBER_MOVE: 26
- * * MEMBER_DISCONNECT: 27
- * * BOT_ADD: 28,
- * * ROLE_CREATE: 30
- * * ROLE_UPDATE: 31
- * * ROLE_DELETE: 32
- * * INVITE_CREATE: 40
- * * INVITE_UPDATE: 41
- * * INVITE_DELETE: 42
- * * WEBHOOK_CREATE: 50
- * * WEBHOOK_UPDATE: 51
- * * WEBHOOK_DELETE: 52
- * * EMOJI_CREATE: 60
- * * EMOJI_UPDATE: 61
- * * EMOJI_DELETE: 62
- * * MESSAGE_DELETE: 72
- * * MESSAGE_BULK_DELETE: 73
- * * MESSAGE_PIN: 74
- * * MESSAGE_UNPIN: 75
- * * INTEGRATION_CREATE: 80
- * * INTEGRATION_UPDATE: 81
- * * INTEGRATION_DELETE: 82
- * * STAGE_INSTANCE_UPDATE: 84
- * * STAGE_INSTANCE_DELETE: 85
- * * STICKER_CREATE: 90
- * * STICKER_UPDATE: 91
- * * STICKER_DELETE: 92
- * * GUILD_SCHEDULED_EVENT_CREATE: 100
- * * GUILD_SCHEDULED_EVENT_UPDATE: 101
- * * GUILD_SCHEDULED_EVENT_DELETE: 102
- * * THREAD_CREATE: 110
- * * THREAD_UPDATE: 111
- * * THREAD_DELETE: 112
- * * APPLICATION_COMMAND_PERMISSION_UPDATE: 121
- * * AUTO_MODERATION_RULE_CREATE: 140
- * * AUTO_MODERATION_RULE_UPDATE: 141
- * * AUTO_MODERATION_RULE_DELETE: 142
- * * AUTO_MODERATION_BLOCK_MESSAGE: 143
- * * AUTO_MODERATION_FLAG_TO_CHANNEL: 144
- * * AUTO_MODERATION_USER_COMMUNICATION_DISABLED: 145
- * @typedef {?(number|string)} AuditLogAction
- * @see {@link https://discord.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events}
- */
-
-/**
- * All available actions keyed under their names to their numeric values.
- * @name GuildAuditLogs.Actions
- * @type {Object<string, number>}
- */
 const Actions = {
   ALL: null,
   GUILD_UPDATE: 1,
@@ -176,109 +83,44 @@ const Actions = {
   AUTO_MODERATION_FLAG_TO_CHANNEL: 144,
   AUTO_MODERATION_USER_COMMUNICATION_DISABLED: 145,
 };
-
-/**
- * Audit logs entries are held in this class.
- */
 class GuildAuditLogs {
   constructor(guild, data) {
     if (data.users) for (const user of data.users) guild.client.users._add(user);
     if (data.threads) for (const thread of data.threads) guild.client.channels._add(thread, guild);
-    /**
-     * Cached webhooks
-     * @type {Collection<Snowflake, Webhook>}
-     * @private
-     */
     this.webhooks = new Collection();
     if (data.webhooks) {
       for (const hook of data.webhooks) {
         this.webhooks.set(hook.id, new Webhook(guild.client, hook));
       }
     }
-
-    /**
-     * Cached integrations
-     * @type {Collection<Snowflake|string, Integration>}
-     * @private
-     */
     this.integrations = new Collection();
     if (data.integrations) {
       for (const integration of data.integrations) {
         this.integrations.set(integration.id, new Integration(guild.client, integration, guild));
       }
     }
-
-    /**
-     * Cached application commands, includes application commands from other applications
-     * @type {Collection<Snowflake, ApplicationCommand>}
-     * @private
-     */
     this.applicationCommands = new Collection();
     if (data.application_commands) {
       for (const command of data.application_commands) {
         this.applicationCommands.set(command.id, new ApplicationCommand(guild.client, command, guild));
       }
     }
-    /**
-     * Cached auto moderation rules.
-     * @type {Collection<Snowflake, AutoModerationRule>}
-     * @private
-     */
     this.autoModerationRules = data.auto_moderation_rules.reduce(
       (autoModerationRules, autoModerationRule) =>
         autoModerationRules.set(autoModerationRule.id, guild.autoModerationRules._add(autoModerationRule)),
       new Collection(),
     );
-
-    /**
-     * The entries for this guild's audit logs
-     * @type {Collection<Snowflake, GuildAuditLogsEntry>}
-     */
     this.entries = new Collection();
     for (const item of data.audit_log_entries) {
       const entry = new GuildAuditLogsEntry(guild, item, this);
       this.entries.set(entry.id, entry);
     }
   }
-
-  /**
-   * Handles possible promises for entry targets.
-   * @returns {Promise<GuildAuditLogs>}
-   */
   static async build(...args) {
     const logs = new GuildAuditLogs(...args);
     await Promise.all(logs.entries.map(e => e.target));
     return logs;
   }
-
-  /**
-   * The target of an entry. It can be one of:
-   * * A guild
-   * * A channel
-   * * A user
-   * * A role
-   * * An invite
-   * * A webhook
-   * * An emoji
-   * * A message
-   * * An integration
-   * * A stage instance
-   * * A sticker
-   * * A guild scheduled event
-   * * A thread
-   * * An application command
-   * * An auto moderation rule
-   * * An object with an id key if target was deleted
-   * * An object where the keys represent either the new value or the old value
-   * @typedef {?(Object|Guild|Channel|User|Role|Invite|Webhook|GuildEmoji|Message|Integration|StageInstance|Sticker|
-   * GuildScheduledEvent|ApplicationCommand|AutoModerationRule)} AuditLogEntryTarget
-   */
-
-  /**
-   * Finds the target type from the entry action.
-   * @param {AuditLogAction} target The action target
-   * @returns {AuditLogTargetType}
-   */
   static targetType(target) {
     if (target < 10) return Targets.GUILD;
     if (target < 20) return Targets.CHANNEL;
@@ -297,21 +139,6 @@ class GuildAuditLogs {
     if (target >= 140 && target < 150) return Targets.AUTO_MODERATION;
     return Targets.UNKNOWN;
   }
-
-  /**
-   * The action type of an entry, e.g. `CREATE`. Here are the available types:
-   * * CREATE
-   * * DELETE
-   * * UPDATE
-   * * ALL
-   * @typedef {string} AuditLogActionType
-   */
-
-  /**
-   * Finds the action type from the entry action.
-   * @param {AuditLogAction} action The action target
-   * @returns {AuditLogActionType}
-   */
   static actionType(action) {
     if (
       [
@@ -334,7 +161,6 @@ class GuildAuditLogs {
     ) {
       return 'CREATE';
     }
-
     if (
       [
         Actions.CHANNEL_DELETE,
@@ -360,7 +186,6 @@ class GuildAuditLogs {
     ) {
       return 'DELETE';
     }
-
     if (
       [
         Actions.GUILD_UPDATE,
@@ -384,90 +209,32 @@ class GuildAuditLogs {
     ) {
       return 'UPDATE';
     }
-
     return 'ALL';
   }
-
   toJSON() {
     return Util.flatten(this);
   }
 }
-
-/**
- * Audit logs entry.
- */
 class GuildAuditLogsEntry {
   constructor(guild, data, logs) {
     const targetType = GuildAuditLogs.targetType(data.action_type);
-    /**
-     * The target type of this entry
-     * @type {AuditLogTargetType}
-     */
     this.targetType = targetType;
-
-    /**
-     * The action type of this entry
-     * @type {AuditLogActionType}
-     */
     this.actionType = GuildAuditLogs.actionType(data.action_type);
-
-    /**
-     * Specific action type of this entry in its string presentation
-     * @type {AuditLogAction}
-     */
     this.action = Object.keys(Actions).find(k => Actions[k] === data.action_type);
-
-    /**
-     * The reason of this entry
-     * @type {?string}
-     */
     this.reason = data.reason ?? null;
-
-    /**
-     * The id of the user that executed this entry
-     * @type {?Snowflake}
-     */
     this.executorId = data.user_id;
-
-    /**
-     * The user that executed this entry
-     * @type {?User}
-     */
     this.executor = data.user_id
       ? guild.client.options.partials.includes(PartialTypes.USER)
         ? guild.client.users._add({ id: data.user_id })
         : (guild.client.users.cache.get(data.user_id) ?? null)
       : null;
-
-    /**
-     * An entry in the audit log representing a specific change.
-     * @typedef {Object} AuditLogChange
-     * @property {string} key The property that was changed, e.g. `nick` for nickname changes
-     * @property {*} [old] The old value of the change, e.g. for nicknames, the old nickname
-     * @property {*} [new] The new value of the change, e.g. for nicknames, the new nickname
-     */
-
-    /**
-     * Specific property changes
-     * @type {AuditLogChange[]}
-     */
     this.changes =
       data.changes?.map(change => ({
         key: change.key,
         ...('old_value' in change ? { old: change.old_value } : {}),
         ...('new_value' in change ? { new: change.new_value } : {}),
       })) ?? [];
-
-    /**
-     * The entry's id
-     * @type {Snowflake}
-     */
     this.id = data.id;
-
-    /**
-     * Any extra data from the entry
-     * @type {?(Object|Role|GuildMember)}
-     */
     this.extra = null;
     switch (data.action_type) {
       case Actions.MEMBER_PRUNE:
@@ -476,7 +243,6 @@ class GuildAuditLogsEntry {
           days: Number(data.options.delete_member_days),
         };
         break;
-
       case Actions.MEMBER_MOVE:
       case Actions.MESSAGE_DELETE:
       case Actions.MESSAGE_BULK_DELETE:
@@ -492,13 +258,11 @@ class GuildAuditLogsEntry {
           messageId: data.options.message_id,
         };
         break;
-
       case Actions.MEMBER_DISCONNECT:
         this.extra = {
           count: Number(data.options.count),
         };
         break;
-
       case Actions.CHANNEL_OVERWRITE_CREATE:
       case Actions.CHANNEL_OVERWRITE_UPDATE:
       case Actions.CHANNEL_OVERWRITE_DELETE:
@@ -510,14 +274,12 @@ class GuildAuditLogsEntry {
               type: OverwriteTypes[OverwriteTypes.role],
             };
             break;
-
           case OverwriteTypes.member:
             this.extra = guild.members.cache.get(data.options.id) ?? {
               id: data.options.id,
               type: OverwriteTypes[OverwriteTypes.member],
             };
             break;
-
           default:
             break;
         }
@@ -539,17 +301,7 @@ class GuildAuditLogsEntry {
       default:
         break;
     }
-
-    /**
-     * The id of the target of this entry
-     * @type {?Snowflake}
-     */
     this.targetId = data.target_id;
-
-    /**
-     * The target of this entry
-     * @type {?AuditLogEntryTarget}
-     */
     this.target = null;
     if (targetType === Targets.UNKNOWN) {
       this.target = this.changes.reduce((o, c) => {
@@ -557,7 +309,6 @@ class GuildAuditLogsEntry {
         return o;
       }, {});
       this.target.id = data.target_id;
-      // MEMBER_DISCONNECT and similar types do not provide a target_id.
     } else if (targetType === Targets.USER && data.target_id) {
       this.target = guild.client.options.partials.includes(PartialTypes.USER)
         ? guild.client.users._add({ id: data.target_id })
@@ -583,7 +334,6 @@ class GuildAuditLogsEntry {
     } else if (targetType === Targets.INVITE) {
       let change = this.changes.find(c => c.key === 'code');
       change = change.new ?? change.old;
-
       this.target =
         guild.invites.cache.get(change) ??
         new Invite(
@@ -597,7 +347,6 @@ class GuildAuditLogsEntry {
           ),
         );
     } else if (targetType === Targets.MESSAGE) {
-      // Discord sends a channel id for the MESSAGE_BULK_DELETE action type.
       this.target =
         data.action_type === Actions.MESSAGE_BULK_DELETE
           ? (guild.channels.cache.get(data.target_id) ?? { id: data.target_id })
@@ -676,32 +425,17 @@ class GuildAuditLogsEntry {
       this.target = guild[`${targetType.toLowerCase()}s`]?.cache.get(data.target_id) ?? { id: data.target_id };
     }
   }
-
-  /**
-   * The timestamp this entry was created at
-   * @type {number}
-   * @readonly
-   */
   get createdTimestamp() {
     return SnowflakeUtil.timestampFrom(this.id);
   }
-
-  /**
-   * The time this entry was created at
-   * @type {Date}
-   * @readonly
-   */
   get createdAt() {
     return new Date(this.createdTimestamp);
   }
-
   toJSON() {
     return Util.flatten(this, { createdTimestamp: true });
   }
 }
-
 GuildAuditLogs.Actions = Actions;
 GuildAuditLogs.Targets = Targets;
 GuildAuditLogs.Entry = GuildAuditLogsEntry;
-
 module.exports = GuildAuditLogs;

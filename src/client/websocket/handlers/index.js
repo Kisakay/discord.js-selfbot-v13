@@ -1,5 +1,4 @@
 'use strict';
-
 const handlers = Object.fromEntries([
   ['READY', require('./READY')],
   ['RESUMED', require('./RESUMED')],
@@ -44,7 +43,6 @@ const handlers = Object.fromEntries([
   ['WEBHOOKS_UPDATE', require('./WEBHOOKS_UPDATE')],
   ['GUILD_STICKERS_UPDATE', require('./GUILD_STICKERS_UPDATE')],
   ['GUILD_AUDIT_LOG_ENTRY_CREATE', require('./GUILD_AUDIT_LOG_ENTRY_CREATE')],
-  // Selfbot
   ['RELATIONSHIP_ADD', require('./RELATIONSHIP_ADD')],
   ['RELATIONSHIP_REMOVE', require('./RELATIONSHIP_REMOVE')],
   ['RELATIONSHIP_UPDATE', require('./RELATIONSHIP_UPDATE')],
@@ -58,5 +56,4 @@ const handlers = Object.fromEntries([
   ['MESSAGE_POLL_VOTE_ADD', require('./MESSAGE_POLL_VOTE_ADD')],
   ['MESSAGE_POLL_VOTE_REMOVE', require('./MESSAGE_POLL_VOTE_REMOVE')],
 ]);
-
 module.exports = handlers;

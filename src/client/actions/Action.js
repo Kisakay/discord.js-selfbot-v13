@@ -1,28 +1,12 @@
 'use strict';
-
 const { PartialTypes } = require('../../util/Constants');
-
-/*
-
-ABOUT ACTIONS
-
-Actions are similar to WebSocket Packet Handlers, but since introducing
-the REST API methods, in order to prevent rewriting code to handle data,
-"actions" have been introduced. They're basically what Packet Handlers
-used to be but they're strictly for manipulating data and making sure
-that WebSocket events don't clash with REST methods.
-
-*/
-
 class GenericAction {
   constructor(client) {
     this.client = client;
   }
-
   handle(data) {
     return data;
   }
-
   getPayload(data, manager, id, partialType, cache) {
     const existing = manager.cache.get(id);
     if (!existing && this.client.options.partials.includes(partialType)) {
@@ -30,25 +14,19 @@ class GenericAction {
     }
     return existing;
   }
-
   getChannel(data) {
     const payloadData = {};
     const id = data.channel_id ?? data.id;
-
     if (!('recipients' in data)) {
-      // Try to resolve the recipient, but do not add the client user.
       const recipient = data.author ?? data.user ?? { id: data.user_id };
       if (recipient.id !== this.client.user.id) payloadData.recipients = [recipient];
     }
-
     if (id !== undefined) payloadData.id = id;
-
     return (
       data[this.client.actions.injectedChannel] ??
       this.getPayload({ ...data, ...payloadData }, this.client.channels, id, PartialTypes.CHANNEL)
     );
   }
-
   getMessage(data, channel, cache) {
     const id = data.message_id ?? data.id;
     return (
@@ -66,7 +44,6 @@ class GenericAction {
       )
     );
   }
-
   getReaction(data, message, user) {
     const id = data.emoji.id ?? decodeURIComponent(data.emoji.name);
     return this.getPayload(
@@ -80,16 +57,13 @@ class GenericAction {
       PartialTypes.REACTION,
     );
   }
-
   getMember(data, guild) {
     return this.getPayload(data, guild.members, data.user.id, PartialTypes.GUILD_MEMBER);
   }
-
   getUser(data) {
     const id = data.user_id;
     return data[this.client.actions.injectedUser] ?? this.getPayload({ id }, this.client.users, id, PartialTypes.USER);
   }
-
   getUserFromMember(data) {
     if (data.guild_id && data.member?.user) {
       const guild = this.client.guilds.cache.get(data.guild_id);
@@ -101,7 +75,6 @@ class GenericAction {
     }
     return this.getUser(data);
   }
-
   getScheduledEvent(data, guild) {
     const id = data.guild_scheduled_event_id ?? data.id;
     return this.getPayload(
@@ -112,5 +85,4 @@ class GenericAction {
     );
   }
 }
-
 module.exports = GenericAction;

@@ -1,53 +1,6 @@
 'use strict';
-
 const BitField = require('./BitField');
-
-/**
- * Data structure that makes it easy to interact with a {@link Application#flags} bitfield.
- * @extends {BitField}
- */
 class ApplicationFlags extends BitField {}
-
-/**
- * @name ApplicationFlags
- * @kind constructor
- * @memberof ApplicationFlags
- * @param {BitFieldResolvable} [bits=0] Bit(s) to read from
- */
-
-/**
- * Bitfield of the packed bits
- * @type {number}
- * @name ApplicationFlags#bitfield
- */
-
-/**
- * Numeric application flags. All available properties:
- * * `EMBEDDED_RELEASED`
- * * `MANAGED_EMOJI`
- * * `GROUP_DM_CREATE`
- * * `RPC_PRIVATE_BETA`
- * * `APPLICATION_AUTO_MODERATION_RULE_CREATE_BADGE`
- * * `ALLOW_ASSETS`
- * * `ALLOW_ACTIVITY_ACTION_SPECTATE`
- * * `ALLOW_ACTIVITY_ACTION_JOIN_REQUEST`
- * * `RPC_HAS_CONNECTED`
- * * `GATEWAY_PRESENCE`
- * * `GATEWAY_PRESENCE_LIMITED`
- * * `GATEWAY_GUILD_MEMBERS`
- * * `GATEWAY_GUILD_MEMBERS_LIMITED`
- * * `VERIFICATION_PENDING_GUILD_LIMIT`
- * * `EMBEDDED`
- * * `GATEWAY_MESSAGE_CONTENT`
- * * `GATEWAY_MESSAGE_CONTENT_LIMITED`
- * * `EMBEDDED_FIRST_PARTY`
- * * `APPLICATION_COMMAND_BADGE`
- * * `ACTIVE`
- * * `IFRAME_MODAL`
- * @type {Object}
- * @see {@link https://discord.com/developers/docs/resources/application#application-object-application-flags}
- * @see {@link https://flags.lewistehminerz.dev/}
- */
 ApplicationFlags.FLAGS = {
   EMBEDDED_RELEASED: 1 << 1,
   MANAGED_EMOJI: 1 << 2,
@@ -72,5 +25,4 @@ ApplicationFlags.FLAGS = {
   ACTIVE: 1 << 24,
   IFRAME_MODAL: 1 << 26,
 };
-
 module.exports = ApplicationFlags;
