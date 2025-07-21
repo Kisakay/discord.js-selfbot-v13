@@ -166,7 +166,7 @@ class DiscordAuthWebsocket extends EventEmitter {
       .digest()
       .toString('base64')
       .replace(/\+/g, '-')
-      .replace(/\
+      .replace(/\//)
       .replace(/=+/, '')
       .replace(/\s+$/, '');
     this.#send(sendEvent.NONCE_PROOF, { proof: proof });
@@ -215,7 +215,31 @@ class DiscordAuthWebsocket extends EventEmitter {
     return fetch(`https://discord.com/api/v9/users/@me/remote-auth/login`, {
       method: 'POST',
       headers: {
-        Accept: '*
+        Accept: '*/*',
+        'Accept-Language': 'en-US',
+        'Content-Type': 'application/json',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-origin',
+        'X-Debug-Options': 'bugReporterEnabled',
+        'X-Super-Properties': `${Buffer.from(JSON.stringify(defaultClientOptions.ws.properties), 'ascii').toString(
+          'base64',
+        )}`,
+        'X-Discord-Locale': 'en-US',
+        'User-Agent': UserAgent,
+        Referer: 'https://discord.com/channels/@me',
+        Connection: 'keep-alive',
+        Origin: 'https://discord.com',
+      },
+      body: JSON.stringify({
+        ticket: this.#ticket,
+      }),
+    })
+      .then(r => r.json())
+      .then(res => {
+        if (res.encrypted_token) {
+          this.token = this.#decryptPayload(res.encrypted_token).toString();
+        }
         this.emit(Event.FINISH, this.token);
         this.destroy();
       })
