@@ -1395,16 +1395,16 @@ export class GuildAuditLogs<T extends GuildAuditLogsResolvable = 'ALL'> {
 export class GuildAuditLogsEntry<
   TActionRaw extends GuildAuditLogsResolvable = 'ALL',
   TAction = TActionRaw extends keyof GuildAuditLogsIds
-  ? GuildAuditLogsIds[TActionRaw]
-  : TActionRaw extends null
-  ? 'ALL'
-  : TActionRaw,
+    ? GuildAuditLogsIds[TActionRaw]
+    : TActionRaw extends null
+      ? 'ALL'
+      : TActionRaw,
   TActionType extends GuildAuditLogsActionType = TAction extends keyof GuildAuditLogsTypes
-  ? GuildAuditLogsTypes[TAction][1]
-  : 'ALL',
+    ? GuildAuditLogsTypes[TAction][1]
+    : 'ALL',
   TTargetType extends GuildAuditLogsTarget = TAction extends keyof GuildAuditLogsTypes
-  ? GuildAuditLogsTypes[TAction][0]
-  : 'UNKNOWN',
+    ? GuildAuditLogsTypes[TAction][0]
+    : 'UNKNOWN',
 > {
   private constructor(guild: Guild, data: RawGuildAuditLogEntryData, logs?: GuildAuditLogs);
   public action: TAction;
@@ -1633,7 +1633,7 @@ export class HTTPError extends Error {
 }
 
 // tslint:disable-next-line:no-empty-interface - Merge RateLimitData into RateLimitError to not have to type it again
-export interface RateLimitError extends RateLimitData { }
+export interface RateLimitError extends RateLimitData {}
 export class RateLimitError extends Error {
   private constructor(data: RateLimitData);
   public name: 'RateLimitError';
@@ -1691,10 +1691,10 @@ export type CacheTypeReducer<
 > = [State] extends ['cached']
   ? CachedType
   : [State] extends ['raw']
-  ? RawType
-  : [State] extends ['raw' | 'cached']
-  ? PresentType
-  : Fallback;
+    ? RawType
+    : [State] extends ['raw' | 'cached']
+      ? PresentType
+      : Fallback;
 
 export class Interaction<Cached extends CacheType = CacheType> extends Base {
   // This a technique used to brand different cached types. Or else we'll get `never` errors on typeguard checks.
@@ -1968,8 +1968,8 @@ export class MessageActionRow<
   T extends MessageActionRowComponent | ModalActionRowComponent = MessageActionRowComponent,
   U = T extends ModalActionRowComponent ? ModalActionRowComponentResolvable : MessageActionRowComponentResolvable,
   V = T extends ModalActionRowComponent
-  ? APIActionRowComponent<APIModalActionRowComponent>
-  : APIActionRowComponent<APIMessageActionRowComponent>,
+    ? APIActionRowComponent<APIModalActionRowComponent>
+    : APIActionRowComponent<APIMessageActionRowComponent>,
 > extends BaseMessageComponent {
   // tslint:disable-next-line:ban-ts-ignore
   // @ts-ignore (TS:2344, Caused by TypeScript 4.8)
@@ -3829,13 +3829,13 @@ export class ApplicationCommandPermissionsManager<
   public remove(
     options:
       | (FetchSingleOptions & {
-        users: UserResolvable | UserResolvable[];
-        roles?: RoleResolvable | RoleResolvable[];
-      })
+          users: UserResolvable | UserResolvable[];
+          roles?: RoleResolvable | RoleResolvable[];
+        })
       | (FetchSingleOptions & {
-        users?: UserResolvable | UserResolvable[];
-        roles: RoleResolvable | RoleResolvable[];
-      }),
+          users?: UserResolvable | UserResolvable[];
+          roles: RoleResolvable | RoleResolvable[];
+        }),
   ): Promise<ApplicationCommandPermissions[]>;
   public set(
     options: FetchSingleOptions & { permissions: ApplicationCommandPermissionData[] },
@@ -4494,13 +4494,7 @@ export type AllowedImageFormat = 'webp' | 'png' | 'jpg' | 'jpeg';
 
 export type AllowedImageSize = 16 | 32 | 56 | 64 | 96 | 128 | 256 | 300 | 512 | 600 | 1024 | 2048 | 4096;
 
-export type AllowedPartial =
-  | User
-  | Channel
-  | GuildMember
-  | Message
-  | MessageReaction
-  | ThreadMember;
+export type AllowedPartial = User | Channel | GuildMember | Message | MessageReaction | ThreadMember;
 
 export type AllowedThreadTypeForNewsChannel = 'GUILD_NEWS_THREAD' | 10;
 
@@ -4757,12 +4751,12 @@ export interface ApplicationCommandChannelOption extends BaseApplicationCommandO
 
 export interface ApplicationCommandAutocompleteOption extends Omit<BaseApplicationCommandOptionsData, 'autocomplete'> {
   type:
-  | 'STRING'
-  | 'NUMBER'
-  | 'INTEGER'
-  | ApplicationCommandOptionTypes.STRING
-  | ApplicationCommandOptionTypes.NUMBER
-  | ApplicationCommandOptionTypes.INTEGER;
+    | 'STRING'
+    | 'NUMBER'
+    | 'INTEGER'
+    | ApplicationCommandOptionTypes.STRING
+    | ApplicationCommandOptionTypes.NUMBER
+    | ApplicationCommandOptionTypes.INTEGER;
   autocomplete: true;
 }
 
@@ -5034,9 +5028,9 @@ export interface AutoModerationRuleCreateOptions {
   reason?: string;
 }
 
-export interface AutoModerationRuleEditOptions extends Partial<Omit<AutoModerationRuleCreateOptions, 'triggerType'>> { }
+export interface AutoModerationRuleEditOptions extends Partial<Omit<AutoModerationRuleCreateOptions, 'triggerType'>> {}
 
-export interface AutoModerationTriggerMetadataOptions extends Partial<AutoModerationTriggerMetadata> { }
+export interface AutoModerationTriggerMetadataOptions extends Partial<AutoModerationTriggerMetadata> {}
 
 export interface AutoModerationActionOptions {
   type: AutoModerationActionType | AutoModerationActionTypes;
@@ -5084,7 +5078,7 @@ export interface BanOptions {
   reason?: string;
 }
 
-export interface BulkBanOptions extends Omit<BanOptions, 'deleteMessageDays'> { }
+export interface BulkBanOptions extends Omit<BanOptions, 'deleteMessageDays'> {}
 
 export interface BulkBanResult {
   bannedUsers: readonly Snowflake[];
@@ -5149,8 +5143,8 @@ export type CacheFactory = (
 
 export type CacheWithLimitsOptions = {
   [K in keyof Caches]?: Caches[K][0]['prototype'] extends DataManager<infer K, infer V, any>
-  ? LimitedCollectionOptions<K, V> | number
-  : never;
+    ? LimitedCollectionOptions<K, V> | number
+    : never;
 };
 export interface CategoryCreateChannelOptions {
   permissionOverwrites?: OverwriteResolvable[] | Collection<Snowflake, OverwriteResolvable>;
@@ -5506,12 +5500,12 @@ export interface ConstantsClientApplicationAssetTypes {
 export type AutocompleteFocusedOption = Pick<CommandInteractionOption, 'name'> & {
   focused: true;
   type:
-  | 'STRING'
-  | 'INTEGER'
-  | 'NUMBER'
-  | ApplicationCommandOptionTypes.STRING
-  | ApplicationCommandOptionTypes.INTEGER
-  | ApplicationCommandOptionTypes.NUMBER;
+    | 'STRING'
+    | 'INTEGER'
+    | 'NUMBER'
+    | ApplicationCommandOptionTypes.STRING
+    | ApplicationCommandOptionTypes.INTEGER
+    | ApplicationCommandOptionTypes.NUMBER;
   value: string;
 };
 
@@ -6051,9 +6045,6 @@ export interface GuildAuditLogsIds {
   90: 'STICKER_CREATE';
   91: 'STICKER_UPDATE';
   92: 'STICKER_DELETE';
-  100: 'GUILD_SCHEDULED_EVENT_CREATE';
-  101: 'GUILD_SCHEDULED_EVENT_UPDATE';
-  102: 'GUILD_SCHEDULED_EVENT_DELETE';
   110: 'THREAD_CREATE';
   111: 'THREAD_UPDATE';
   112: 'THREAD_DELETE';
@@ -6081,20 +6072,20 @@ export interface GuildAuditLogsEntryExtraField {
   MESSAGE_UNPIN: { channel: GuildTextBasedChannel | { id: Snowflake }; messageId: Snowflake };
   MEMBER_DISCONNECT: { count: number };
   CHANNEL_OVERWRITE_CREATE:
-  | Role
-  | GuildMember
-  | { id: Snowflake; name: string; type: OverwriteTypes.role }
-  | { id: Snowflake; type: OverwriteTypes.member };
+    | Role
+    | GuildMember
+    | { id: Snowflake; name: string; type: OverwriteTypes.role }
+    | { id: Snowflake; type: OverwriteTypes.member };
   CHANNEL_OVERWRITE_UPDATE:
-  | Role
-  | GuildMember
-  | { id: Snowflake; name: string; type: OverwriteTypes.role }
-  | { id: Snowflake; type: OverwriteTypes.member };
+    | Role
+    | GuildMember
+    | { id: Snowflake; name: string; type: OverwriteTypes.role }
+    | { id: Snowflake; type: OverwriteTypes.member };
   CHANNEL_OVERWRITE_DELETE:
-  | Role
-  | GuildMember
-  | { id: Snowflake; name: string; type: OverwriteTypes.role }
-  | { id: Snowflake; type: OverwriteTypes.member };
+    | Role
+    | GuildMember
+    | { id: Snowflake; name: string; type: OverwriteTypes.role }
+    | { id: Snowflake; type: OverwriteTypes.member };
   APPLICATION_COMMAND_PERMISSION_UPDATE: {
     applicationId: Snowflake;
   };
@@ -6122,8 +6113,8 @@ export interface GuildAuditLogsEntryTargetField<TActionType extends GuildAuditLo
   INVITE: Invite;
   MESSAGE: TActionType extends 'MESSAGE_BULK_DELETE' ? Guild | { id: Snowflake } : User;
   INTEGRATION: Integration;
-  CHANNEL: NonThreadGuildBasedChannel | { id: Snowflake;[x: string]: unknown };
-  THREAD: ThreadChannel | { id: Snowflake;[x: string]: unknown };
+  CHANNEL: NonThreadGuildBasedChannel | { id: Snowflake; [x: string]: unknown };
+  THREAD: ThreadChannel | { id: Snowflake; [x: string]: unknown };
   STAGE_INSTANCE: null;
   STICKER: Sticker;
   APPLICATION_COMMAND: ApplicationCommand | { id: Snowflake };
@@ -6416,11 +6407,7 @@ export type IntentsString =
   | 'AUTO_MODERATION_CONFIGURATION'
   | 'AUTO_MODERATION_EXECUTION';
 
-export type GuildInvitableChannelResolvable =
-  | TextChannel
-  | NewsChannel
-  | StoreChannel
-  | Snowflake;
+export type GuildInvitableChannelResolvable = TextChannel | NewsChannel | StoreChannel | Snowflake;
 
 export interface CreateInviteOptions {
   temporary?: boolean;
@@ -6490,8 +6477,8 @@ export type ModalActionRowComponentResolvable =
 
 export interface MessageActionRowOptions<
   T extends
-  | MessageActionRowComponentResolvable
-  | ModalActionRowComponentResolvable = MessageActionRowComponentResolvable,
+    | MessageActionRowComponentResolvable
+    | ModalActionRowComponentResolvable = MessageActionRowComponentResolvable,
 > extends BaseMessageComponentOptions {
   components: T[];
 }
@@ -6679,7 +6666,7 @@ export interface MessageSnapshot
       | 'stickers'
       | 'type'
     >
-  > { }
+  > {}
 
 export interface MessageOptions {
   activity?: MessageActivity;
@@ -6770,8 +6757,8 @@ export type MFALevel = keyof typeof MFALevels;
 
 export interface ModalOptions {
   components:
-  | MessageActionRow<ModalActionRowComponent>[]
-  | MessageActionRowOptions<ModalActionRowComponentResolvable>[];
+    | MessageActionRow<ModalActionRowComponent>[]
+    | MessageActionRowOptions<ModalActionRowComponentResolvable>[];
   customId: string;
   title: string;
 }
@@ -6939,19 +6926,19 @@ export type Partialize<
   id: Snowflake;
   partial: true;
 } & {
-    [K in keyof Omit<T, 'client' | 'id' | 'partial' | E>]: K extends N ? null : K extends M ? T[K] | null : T[K];
-  };
+  [K in keyof Omit<T, 'client' | 'id' | 'partial' | E>]: K extends N ? null : K extends M ? T[K] | null : T[K];
+};
 
 export interface PartialDMChannel extends Partialize<DMChannel, null, null, 'lastMessageId'> {
   lastMessageId: undefined;
 }
 
-export interface PartialGuildMember extends Partialize<GuildMember, 'joinedAt' | 'joinedTimestamp'> { }
+export interface PartialGuildMember extends Partialize<GuildMember, 'joinedAt' | 'joinedTimestamp'> {}
 
 export interface PartialMessage
-  extends Partialize<Message, 'type' | 'system' | 'pinned' | 'tts', 'content' | 'cleanContent' | 'author'> { }
+  extends Partialize<Message, 'type' | 'system' | 'pinned' | 'tts', 'content' | 'cleanContent' | 'author'> {}
 
-export interface PartialMessageReaction extends Partialize<MessageReaction, 'count'> { }
+export interface PartialMessageReaction extends Partialize<MessageReaction, 'count'> {}
 
 export interface PartialOverwriteData {
   id: Snowflake | number;
@@ -6966,7 +6953,7 @@ export interface PartialRoleData extends RoleData {
 
 export type PartialTypes = 'USER' | 'CHANNEL' | 'GUILD_MEMBER' | 'MESSAGE' | 'REACTION' | 'GUILD_SCHEDULED_EVENT';
 
-export interface PartialUser extends Partialize<User, 'username' | 'tag' | 'discriminator'> { }
+export interface PartialUser extends Partialize<User, 'username' | 'tag' | 'discriminator'> {}
 
 export type PresenceStatusData = ClientPresenceStatus | 'invisible';
 
@@ -7169,8 +7156,8 @@ export interface SweeperDefinitions {
 
 export type SweeperOptions = {
   [K in keyof SweeperDefinitions]?: SweeperDefinitions[K][2] extends true
-  ? SweepOptions<SweeperDefinitions[K][0], SweeperDefinitions[K][1]> | LifetimeSweepOptions
-  : SweepOptions<SweeperDefinitions[K][0], SweeperDefinitions[K][1]>;
+    ? SweepOptions<SweeperDefinitions[K][0], SweeperDefinitions[K][1]> | LifetimeSweepOptions
+    : SweepOptions<SweeperDefinitions[K][0], SweeperDefinitions[K][1]>;
 };
 
 export interface LimitedCollectionOptions<K, V> {
@@ -7437,14 +7424,14 @@ export type WSEventType =
 export type Serialized<T> = T extends symbol | bigint | (() => any)
   ? never
   : T extends number | string | boolean | undefined
-  ? T
-  : T extends { toJSON(): infer R }
-  ? R
-  : T extends ReadonlyArray<infer V>
-  ? Serialized<V>[]
-  : T extends ReadonlyMap<unknown, unknown> | ReadonlySet<unknown>
-  ? {}
-  : { [K in keyof T]: Serialized<T[K]> };
+    ? T
+    : T extends { toJSON(): infer R }
+      ? R
+      : T extends ReadonlyArray<infer V>
+        ? Serialized<V>[]
+        : T extends ReadonlyMap<unknown, unknown> | ReadonlySet<unknown>
+          ? {}
+          : { [K in keyof T]: Serialized<T[K]> };
 
 //#endregion
 
