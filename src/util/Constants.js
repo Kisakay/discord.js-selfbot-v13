@@ -358,7 +358,6 @@ exports.VoiceOpcodes = {
  * * SHARD_RESUME: shardResume
  * * INVALIDATED: invalidated
  * * RAW: raw
- * * STAGE_INSTANCE_CREATE: stageInstanceCreate
  * * STAGE_INSTANCE_UPDATE: stageInstanceUpdate
  * * STAGE_INSTANCE_DELETE: stageInstanceDelete
  * * GUILD_STICKER_CREATE: stickerCreate
@@ -440,7 +439,6 @@ exports.Events = {
   PRESENCE_UPDATE: 'presenceUpdate',
   VOICE_SERVER_UPDATE: 'voiceServerUpdate',
   VOICE_STATE_UPDATE: 'voiceStateUpdate',
-  TYPING_START: 'typingStart',
   WEBHOOKS_UPDATE: 'webhookUpdate',
   ERROR: 'error',
   WARN: 'warn',
@@ -453,7 +451,6 @@ exports.Events = {
   SHARD_RESUME: 'shardResume',
   INVALIDATED: 'invalidated',
   RAW: 'raw',
-  STAGE_INSTANCE_CREATE: 'stageInstanceCreate',
   STAGE_INSTANCE_UPDATE: 'stageInstanceUpdate',
   STAGE_INSTANCE_DELETE: 'stageInstanceDelete',
   GUILD_STICKER_CREATE: 'stickerCreate',
@@ -568,7 +565,6 @@ exports.PartialTypes = keyMirror(['USER', 'CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 
  * * VOICE_STATE_UPDATE
  * * VOICE_SERVER_UPDATE
  * * WEBHOOKS_UPDATE
- * * STAGE_INSTANCE_CREATE
  * * STAGE_INSTANCE_UPDATE
  * * STAGE_INSTANCE_DELETE
  * * GUILD_STICKERS_UPDATE
@@ -628,11 +624,9 @@ exports.WSEvents = keyMirror([
   'THREAD_MEMBERS_UPDATE',
   'USER_UPDATE',
   'PRESENCE_UPDATE',
-  'TYPING_START',
   'VOICE_STATE_UPDATE',
   'VOICE_SERVER_UPDATE',
   'WEBHOOKS_UPDATE',
-  'STAGE_INSTANCE_CREATE',
   'STAGE_INSTANCE_UPDATE',
   'STAGE_INSTANCE_DELETE',
   'GUILD_STICKERS_UPDATE',

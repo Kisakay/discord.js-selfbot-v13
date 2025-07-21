@@ -95,7 +95,6 @@ const Targets = {
  * * INTEGRATION_CREATE: 80
  * * INTEGRATION_UPDATE: 81
  * * INTEGRATION_DELETE: 82
- * * STAGE_INSTANCE_CREATE: 83
  * * STAGE_INSTANCE_UPDATE: 84
  * * STAGE_INSTANCE_DELETE: 85
  * * STICKER_CREATE: 90
@@ -160,9 +159,6 @@ const Actions = {
   INTEGRATION_CREATE: 80,
   INTEGRATION_UPDATE: 81,
   INTEGRATION_DELETE: 82,
-  STAGE_INSTANCE_CREATE: 83,
-  STAGE_INSTANCE_UPDATE: 84,
-  STAGE_INSTANCE_DELETE: 85,
   STICKER_CREATE: 90,
   STICKER_UPDATE: 91,
   STICKER_DELETE: 92,
@@ -329,7 +325,6 @@ class GuildAuditLogs {
         Actions.EMOJI_CREATE,
         Actions.MESSAGE_PIN,
         Actions.INTEGRATION_CREATE,
-        Actions.STAGE_INSTANCE_CREATE,
         Actions.STICKER_CREATE,
         Actions.GUILD_SCHEDULED_EVENT_CREATE,
         Actions.THREAD_CREATE,
@@ -526,14 +521,6 @@ class GuildAuditLogsEntry {
           default:
             break;
         }
-        break;
-
-      case Actions.STAGE_INSTANCE_CREATE:
-      case Actions.STAGE_INSTANCE_DELETE:
-      case Actions.STAGE_INSTANCE_UPDATE:
-        this.extra = {
-          channel: guild.client.channels.cache.get(data.options?.channel_id) ?? { id: data.options?.channel_id },
-        };
         break;
       case Actions.APPLICATION_COMMAND_PERMISSION_UPDATE:
         this.extra = {

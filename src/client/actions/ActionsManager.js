@@ -53,15 +53,6 @@ class ActionsManager {
     this.register(require('./MessageReactionRemoveEmoji'));
     this.register(require('./MessageUpdate'));
     this.register(require('./PresenceUpdate'));
-    this.register(require('./StageInstanceCreate'));
-    this.register(require('./StageInstanceDelete'));
-    this.register(require('./StageInstanceUpdate'));
-    this.register(require('./ThreadCreate'));
-    this.register(require('./ThreadDelete'));
-    this.register(require('./ThreadListSync'));
-    this.register(require('./ThreadMemberUpdate'));
-    this.register(require('./ThreadMembersUpdate'));
-    this.register(require('./TypingStart'));
     this.register(require('./UserUpdate'));
     this.register(require('./WebhooksUpdate'));
   }
