@@ -100,7 +100,6 @@ import {
   TextInputStyles,
   VerificationLevels,
   WebhookTypes,
-  GuildScheduledEventEntityTypes,
   GuildScheduledEventStatuses,
   GuildScheduledEventPrivacyLevels,
   VideoQualityModes,
@@ -3664,7 +3663,6 @@ export const Constants: {
   };
   Events: ConstantsEvents;
   ExplicitContentFilterLevels: EnumHolder<typeof ExplicitContentFilterLevels>;
-  GuildScheduledEventEntityTypes: EnumHolder<typeof GuildScheduledEventEntityTypes>;
   GuildScheduledEventPrivacyLevels: EnumHolder<typeof GuildScheduledEventPrivacyLevels>;
   GuildScheduledEventStatuses: EnumHolder<typeof GuildScheduledEventStatuses>;
   IntegrationExpireBehaviors: IntegrationExpireBehaviors[];
@@ -3677,7 +3675,6 @@ export const Constants: {
   MFALevels: EnumHolder<typeof MFALevels>;
   NSFWLevels: EnumHolder<typeof NSFWLevels>;
   Opcodes: ConstantsOpcodes;
-  VoiceOpcodes: ConstantsVoiceOpcodes;
   OverwriteTypes: EnumHolder<typeof OverwriteTypes>;
   Package: {
     [key: string]: unknown;
@@ -5604,9 +5601,6 @@ export interface ConstantsEvents {
   THREAD_MEMBERS_UPDATE: 'threadMembersUpdate';
   USER_UPDATE: 'userUpdate';
   PRESENCE_UPDATE: 'presenceUpdate';
-  VOICE_CHANNEL_EFFECT_SEND: 'voiceChannelEffectSend';
-  VOICE_SERVER_UPDATE: 'voiceServerUpdate';
-  VOICE_STATE_UPDATE: 'voiceStateUpdate';
   WEBHOOKS_UPDATE: 'webhookUpdate';
   ERROR: 'error';
   WARN: 'warn';
@@ -5642,32 +5636,11 @@ export interface ConstantsEvents {
   MESSAGE_POLL_VOTE_REMOVE: 'messagePollVoteRemove';
 }
 
-export interface ConstantsVoiceOpcodes {
-  IDENTIFY: 0;
-  SELECT_PROTOCOL: 1;
-  READY: 2;
-  HEARTBEAT: 3;
-  SESSION_DESCRIPTION: 4;
-  SPEAKING: 5;
-  HEARTBEAT_ACK: 6;
-  RESUME: 7;
-  HELLO: 8;
-  RESUMED: 9;
-  SOURCES: 12;
-  CLIENT_DISCONNECT: 13;
-  SESSION_UPDATE: 14;
-  MEDIA_SINK_WANTS: 15;
-  VOICE_BACKEND_VERSION: 16;
-  CHANNEL_OPTIONS_UPDATE: 17;
-}
-
 export interface ConstantsOpcodes {
   DISPATCH: 0;
   HEARTBEAT: 1;
   IDENTIFY: 2;
   STATUS_UPDATE: 3;
-  VOICE_STATE_UPDATE: 4;
-  VOICE_GUILD_PING: 5;
   RESUME: 6;
   RECONNECT: 7;
   REQUEST_GUILD_MEMBERS: 8;
@@ -5679,7 +5652,6 @@ export interface ConstantsOpcodes {
   GUILD_SUBSCRIPTIONS: 14;
   LOBBY_CONNECT: 15;
   LOBBY_DISCONNECT: 16;
-  LOBBY_VOICE_STATE_UPDATE: 17;
   STREAM_CREATE: 18;
   STREAM_DELETE: 19;
   STREAM_WATCH: 20;
@@ -7403,8 +7375,6 @@ export type WSEventType =
   | 'THREAD_MEMBERS_UPDATE'
   | 'USER_UPDATE'
   | 'PRESENCE_UPDATE'
-  | 'VOICE_STATE_UPDATE'
-  | 'VOICE_SERVER_UPDATE'
   | 'WEBHOOKS_UPDATE'
   | 'INTERACTION_CREATE'
   | 'STAGE_INSTANCE_UPDATE'

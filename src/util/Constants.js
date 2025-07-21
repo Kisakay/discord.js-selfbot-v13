@@ -13,8 +13,8 @@ exports.UserAgent =
 
 /**
  * Chrome TLS ciphers
- * @see {@link https://tls.browserleaks.com/tls}
- * @see {@link https://github.com/yifeikong/curl-impersonate}
+ * @see {@link https:
+ * @see {@link https:
  * @typedef {Array<string>} Ciphers
  */
 exports.ciphers = [
@@ -84,7 +84,7 @@ function makeImageUrl(root, { format = 'webp', size } = {}) {
 /**
  * An object containing functions that return certain endpoints on the API.
  * @typedef {Object<string, Function|string>} Endpoints
- * @see {@link https://discord.com/developers/docs/reference#image-formatting-cdn-endpoints}
+ * @see {@link https:
  */
 exports.Endpoints = {
   CDN(root) {
@@ -188,7 +188,6 @@ exports.VoiceStatus = {
  * * HEARTBEAT: 1
  * * IDENTIFY: 2
  * * STATUS_UPDATE: 3
- * * VOICE_STATE_UPDATE: 4
  * * VOICE_GUILD_PING: 5
  * * RESUME: 6
  * * RECONNECT: 7
@@ -201,7 +200,6 @@ exports.VoiceStatus = {
  * * GUILD_SUBSCRIPTIONS: 14 #  Send => discord responds back with GUILD_MEMBER_LIST_UPDATE type SYNC...
  * * LOBBY_CONNECT: 15
  * * LOBBY_DISCONNECT: 16
- * * LOBBY_VOICE_STATE_UPDATE: 17 #  Receive
  * * STREAM_CREATE: 18
  * * STREAM_DELETE: 19
  * * STREAM_WATCH: 20
@@ -229,8 +227,6 @@ exports.Opcodes = {
   HEARTBEAT: 1,
   IDENTIFY: 2,
   STATUS_UPDATE: 3,
-  VOICE_STATE_UPDATE: 4,
-  VOICE_GUILD_PING: 5,
   RESUME: 6,
   RECONNECT: 7,
   REQUEST_GUILD_MEMBERS: 8,
@@ -242,7 +238,6 @@ exports.Opcodes = {
   GUILD_SUBSCRIPTIONS: 14,
   LOBBY_CONNECT: 15,
   LOBBY_DISCONNECT: 16,
-  LOBBY_VOICE_STATE_UPDATE: 17,
   STREAM_CREATE: 18,
   STREAM_DELETE: 19,
   STREAM_WATCH: 20,
@@ -252,39 +247,17 @@ exports.Opcodes = {
   EMBEDDED_ACTIVITY_LAUNCH: 25,
   EMBEDDED_ACTIVITY_CLOSE: 26,
   EMBEDDED_ACTIVITY_UPDATE: 27,
-  REQUEST_FORUM_UNREADS: 28, // Payload: { guild_id: Snowflake, channel_id: Snowflake, threads: { thread_id: Snowflake, ack_message_id: Snowflake }[] }
-  REMOTE_COMMAND: 29, // Payload: { target_session_id: string, payload: any }
-  GET_DELETED_ENTITY_IDS_NOT_MATCHING_HASH: 30, // Payload: { guild_id: Snowflake, channel_ids_hash: string[], role_ids_hash: string[], emoji_ids_hash: string[], sticker_ids_hash: string[] }
-  REQUEST_SOUNDBOARD_SOUNDS: 31, // Payload: { guild_ids: string[] }
-  SPEED_TEST_CREATE: 32, // Payload: { preferred_region: string }
-  SPEED_TEST_DELETE: 33, // Payload: null
-  REQUEST_LAST_MESSAGES: 34, // Payload: { guild_id: string, channel_ids: string[] }
-  SEARCH_RECENT_MEMBERS: 35, // Payload: { guild_id: string, query: string, continuation_token?: Snowflake }
-  REQUEST_CHANNEL_STATUSES: 36, // Payload: { guild_id: string } | Response: CHANNEL_STATUSES | { guild_id, channels: { status, id }[] }
-  GUILD_SUBSCRIPTIONS_BULK: 37, // Payload: { subscriptions: Object<guild_id, { Payload_op14 - guild_id }> } | Response: Opcode 14
-  // Updated: 23/1/2024
-};
-
-/**
- * @typedef {Opject<string, number>} VoiceOpcodes
- */
-exports.VoiceOpcodes = {
-  IDENTIFY: 0,
-  SELECT_PROTOCOL: 1,
-  READY: 2,
-  HEARTBEAT: 3,
-  SESSION_DESCRIPTION: 4,
-  SPEAKING: 5,
-  HEARTBEAT_ACK: 6,
-  RESUME: 7,
-  HELLO: 8,
-  RESUMED: 9,
-  SOURCES: 12,
-  CLIENT_DISCONNECT: 13,
-  SESSION_UPDATE: 14,
-  MEDIA_SINK_WANTS: 15,
-  VOICE_BACKEND_VERSION: 16,
-  CHANNEL_OPTIONS_UPDATE: 17,
+  REQUEST_FORUM_UNREADS: 28, 
+  REMOTE_COMMAND: 29, 
+  GET_DELETED_ENTITY_IDS_NOT_MATCHING_HASH: 30, 
+  REQUEST_SOUNDBOARD_SOUNDS: 31, 
+  SPEED_TEST_CREATE: 32, 
+  SPEED_TEST_DELETE: 33, 
+  REQUEST_LAST_MESSAGES: 34, 
+  SEARCH_RECENT_MEMBERS: 35, 
+  REQUEST_CHANNEL_STATUSES: 36, 
+  GUILD_SUBSCRIPTIONS_BULK: 37, 
+  
 };
 
 /**
@@ -343,8 +316,6 @@ exports.VoiceOpcodes = {
  * * THREAD_MEMBERS_UPDATE: threadMembersUpdate
  * * USER_UPDATE: userUpdate
  * * PRESENCE_UPDATE: presenceUpdate
- * * VOICE_SERVER_UPDATE: voiceServerUpdate
- * * VOICE_STATE_UPDATE: voiceStateUpdate
  * * TYPING_START: typingStart
  * * WEBHOOKS_UPDATE: webhookUpdate
  * * ERROR: error
@@ -437,8 +408,6 @@ exports.Events = {
   THREAD_MEMBERS_UPDATE: 'threadMembersUpdate',
   USER_UPDATE: 'userUpdate',
   PRESENCE_UPDATE: 'presenceUpdate',
-  VOICE_SERVER_UPDATE: 'voiceServerUpdate',
-  VOICE_STATE_UPDATE: 'voiceStateUpdate',
   WEBHOOKS_UPDATE: 'webhookUpdate',
   ERROR: 'error',
   WARN: 'warn',
@@ -475,7 +444,7 @@ exports.Events = {
   MESSAGE_POLL_VOTE_ADD: 'messagePollVoteAdd',
   MESSAGE_POLL_VOTE_REMOVE: 'messagePollVoteRemove',
   VOICE_CHANNEL_EFFECT_SEND: 'voiceChannelEffectSend',
-  // Djs v12
+  
   VOICE_BROADCAST_SUBSCRIBE: 'subscribe',
   VOICE_BROADCAST_UNSUBSCRIBE: 'unsubscribe',
 };
@@ -508,7 +477,7 @@ exports.ShardEvents = {
  * * REACTION
  * * GUILD_SCHEDULED_EVENT
  * <warn>Partials require you to put checks in place when handling data. See the "Partial Structures" topic on the
- * [guide](https://discordjs.guide/popular-topics/partials.html) for more information.</warn>
+ * [guide](https:
  * @typedef {string} PartialType
  */
 exports.PartialTypes = keyMirror(['USER', 'CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'GUILD_SCHEDULED_EVENT']);
@@ -562,7 +531,6 @@ exports.PartialTypes = keyMirror(['USER', 'CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 
  * * USER_UPDATE
  * * PRESENCE_UPDATE
  * * TYPING_START
- * * VOICE_STATE_UPDATE
  * * VOICE_SERVER_UPDATE
  * * WEBHOOKS_UPDATE
  * * STAGE_INSTANCE_UPDATE
@@ -575,7 +543,7 @@ exports.PartialTypes = keyMirror(['USER', 'CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 
  * * GUILD_SCHEDULED_EVENT_USER_REMOVE
  * * GUILD_AUDIT_LOG_ENTRY_CREATE
  * @typedef {string} WSEventType
- * @see {@link https://discord.com/developers/docs/topics/gateway-events#receive-events}
+ * @see {@link https:
  */
 exports.WSEvents = keyMirror([
   'READY',
@@ -624,8 +592,6 @@ exports.WSEvents = keyMirror([
   'THREAD_MEMBERS_UPDATE',
   'USER_UPDATE',
   'PRESENCE_UPDATE',
-  'VOICE_STATE_UPDATE',
-  'VOICE_SERVER_UPDATE',
   'WEBHOOKS_UPDATE',
   'STAGE_INSTANCE_UPDATE',
   'STAGE_INSTANCE_DELETE',
@@ -655,7 +621,7 @@ exports.WSEvents = keyMirror([
  * * `webhook.incoming`: generates a webhook to a channel
  * * `role_connections.write`: allows your app to update a user's connection and metadata for the app
  * @typedef {string} InviteScope
- * @see {@link https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes}
+ * @see {@link https:
  */
 exports.InviteScopes = [
   'applications.builds.read',
@@ -673,13 +639,13 @@ exports.InviteScopes = [
   'role_connections.write',
 ];
 
-// TODO: change Integration#expireBehavior to this and clean up Integration
+
 /**
  * The behavior of expiring subscribers for Integrations. This can be:
  * * REMOVE_ROLE
  * * KICK
  * @typedef {string} IntegrationExpireBehavior
- * @see {@link https://discord.com/developers/docs/resources/guild#integration-object-integration-expire-behaviors}
+ * @see {@link https:
  */
 exports.IntegrationExpireBehaviors = createEnum(['REMOVE_ROLE', 'KICK']);
 
@@ -730,11 +696,11 @@ exports.IntegrationExpireBehaviors = createEnum(['REMOVE_ROLE', 'KICK']);
  * * CHANGELOG
  * * NITRO_NOTIFICATION
  * @typedef {string} MessageType
- * @see {@link https://discord.com/developers/docs/resources/channel#message-object-message-types}
- * @see {@link https://docs.discord.sex/resources/message#message-type}
+ * @see {@link https:
+ * @see {@link https:
  */
 exports.MessageTypes = [
-  'DEFAULT', // 0
+  'DEFAULT', 
   'RECIPIENT_ADD',
   'RECIPIENT_REMOVE',
   'CALL',
@@ -747,7 +713,7 @@ exports.MessageTypes = [
   'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2',
   'USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3',
   'CHANNEL_FOLLOW_ADD',
-  null, // 13
+  null, 
   'GUILD_DISCOVERY_DISQUALIFIED',
   'GUILD_DISCOVERY_REQUALIFIED',
   'GUILD_DISCOVERY_GRACE_PERIOD_INITIAL_WARNING',
@@ -767,7 +733,7 @@ exports.MessageTypes = [
   'STAGE_RAISE_HAND',
   'STAGE_TOPIC',
   'GUILD_APPLICATION_PREMIUM_SUBSCRIPTION',
-  null, // 33
+  null, 
   null,
   'PREMIUM_REFERRAL',
   'GUILD_INCIDENT_ALERT_MODE_ENABLED',
@@ -790,10 +756,10 @@ exports.MessageTypes = [
  * * DEFAULT
  * * FORWARD
  * @typedef {string} MessageReferenceType
- * @see {@link https://discord.com/developers/docs/resources/message#message-reference-types}
+ * @see {@link https:
  */
 exports.MessageReferenceTypes = createEnum([
-  'DEFAULT', // 0
+  'DEFAULT', 
   'FORWARD',
 ]);
 
@@ -855,7 +821,7 @@ exports.SystemMessageTypes = exports.MessageTypes.filter(
  * * COMPETING
  * * HANG
  * @typedef {string} ActivityType
- * @see {@link https://discord.com/developers/docs/game-sdk/activities#data-models-activitytype-enum}
+ * @see {@link https:
  */
 exports.ActivityTypes = createEnum(['PLAYING', 'STREAMING', 'LISTENING', 'WATCHING', 'CUSTOM', 'COMPETING', 'HANG']);
 
@@ -869,7 +835,7 @@ exports.ActivityTypes = createEnum(['PLAYING', 'STREAMING', 'LISTENING', 'WATCHI
  * * `GUILD_NEWS` - a guild news channel
  * * `GUILD_STORE` - a guild store channel
  * <warn>Store channels are deprecated and will be removed from Discord in March 2022. See
- * [Self-serve Game Selling Deprecation](https://support-dev.discord.com/hc/en-us/articles/6309018858647)
+ * [Self-serve Game Selling Deprecation](https:
  * for more information.</warn>
  * * `GUILD_NEWS_THREAD` - a guild news channel's public thread channel
  * * `GUILD_PUBLIC_THREAD` - a guild text channel's public thread channel
@@ -880,7 +846,7 @@ exports.ActivityTypes = createEnum(['PLAYING', 'STREAMING', 'LISTENING', 'WATCHI
  * * `GUILD_MEDIA` - a channel that can only contain threads, similar to `GUILD_FORUM` channels
  * * `UNKNOWN` - a generic channel of unknown type, could be Channel or GuildChannel
  * @typedef {string} ChannelType
- * @see {@link https://discord.com/developers/docs/resources/channel#channel-object-channel-types}
+ * @see {@link https:
  */
 exports.ChannelTypes = createEnum([
   'GUILD_TEXT',
@@ -891,7 +857,7 @@ exports.ChannelTypes = createEnum([
   'GUILD_NEWS',
   'GUILD_STORE',
   ...Array(3).fill(null),
-  // 10
+  
   'GUILD_NEWS_THREAD',
   'GUILD_PUBLIC_THREAD',
   'GUILD_PRIVATE_THREAD',
@@ -1043,7 +1009,7 @@ exports.Colors = {
  * * MEMBERS_WITHOUT_ROLES
  * * ALL_MEMBERS
  * @typedef {string} ExplicitContentFilterLevel
- * @see {@link https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level}
+ * @see {@link https:
  */
 exports.ExplicitContentFilterLevels = createEnum(['DISABLED', 'MEMBERS_WITHOUT_ROLES', 'ALL_MEMBERS']);
 
@@ -1055,7 +1021,7 @@ exports.ExplicitContentFilterLevels = createEnum(['DISABLED', 'MEMBERS_WITHOUT_R
  * * HIGH
  * * VERY_HIGH
  * @typedef {string} VerificationLevel
- * @see {@link https://discord.com/developers/docs/resources/guild#guild-object-verification-level}
+ * @see {@link https:
  */
 exports.VerificationLevels = createEnum(['NONE', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH']);
 
@@ -1206,8 +1172,8 @@ exports.VerificationLevels = createEnum(['NONE', 'LOW', 'MEDIUM', 'HIGH', 'VERY_
  * * CANNOT_UPDATE_A_FINISHED_EVENT
  * * FAILED_TO_CREATE_STAGE_NEEDED_FOR_STAGE_EVENT
  * @typedef {string} APIError
- * @see {@link https://discord.com/developers/docs/topics/opcodes-and-status-codes#json-json-error-codes}
- * @see {@link https://gist.github.com/Dziurwa14/de2498e5ee28d2089f095aa037957cbb}
+ * @see {@link https:
+ * @see {@link https:
  */
 exports.APIErrors = {
   UNKNOWN_ACCOUNT: 10001,
@@ -1369,7 +1335,7 @@ exports.APIErrors = {
  * * ALL_MESSAGES
  * * ONLY_MENTIONS
  * @typedef {string} DefaultMessageNotificationLevel
- * @see {@link https://discord.com/developers/docs/resources/guild#guild-object-default-message-notification-level}
+ * @see {@link https:
  */
 exports.DefaultMessageNotificationLevels = createEnum(['ALL_MESSAGES', 'ONLY_MENTIONS']);
 
@@ -1378,7 +1344,7 @@ exports.DefaultMessageNotificationLevels = createEnum(['ALL_MESSAGES', 'ONLY_MEN
  * * INVITED
  * * ACCEPTED
  * @typedef {string} MembershipState
- * @see {@link https://discord.com/developers/docs/topics/teams#data-models-membership-state-enum}
+ * @see {@link https:
  */
 exports.MembershipStates = createEnum([null, 'INVITED', 'ACCEPTED']);
 
@@ -1388,7 +1354,7 @@ exports.MembershipStates = createEnum([null, 'INVITED', 'ACCEPTED']);
  * * Channel Follower
  * * Application
  * @typedef {string} WebhookType
- * @see {@link https://discord.com/developers/docs/resources/webhook#webhook-object-webhook-types}
+ * @see {@link https:
  */
 exports.WebhookTypes = createEnum([null, 'Incoming', 'Channel Follower', 'Application']);
 
@@ -1397,7 +1363,7 @@ exports.WebhookTypes = createEnum([null, 'Incoming', 'Channel Follower', 'Applic
  * * STANDARD
  * * GUILD
  * @typedef {string} StickerType
- * @see {@link https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-types}
+ * @see {@link https:
  */
 exports.StickerTypes = createEnum([null, 'STANDARD', 'GUILD']);
 
@@ -1408,7 +1374,7 @@ exports.StickerTypes = createEnum([null, 'STANDARD', 'GUILD']);
  * * LOTTIE
  * * GIF
  * @typedef {string} StickerFormatType
- * @see {@link https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-format-types}
+ * @see {@link https:
  */
 exports.StickerFormatTypes = createEnum([null, 'PNG', 'APNG', 'LOTTIE', 'GIF']);
 
@@ -1417,18 +1383,18 @@ exports.StickerFormatTypes = createEnum([null, 'PNG', 'APNG', 'LOTTIE', 'GIF']);
  * * role
  * * member
  * @typedef {string} OverwriteType
- * @see {@link https://discord.com/developers/docs/resources/channel#overwrite-object-overwrite-structure}
+ * @see {@link https:
  */
 exports.OverwriteTypes = createEnum(['role', 'member']);
 
-/* eslint-disable max-len */
+
 /**
  * The type of an {@link ApplicationCommand} object:
  * * CHAT_INPUT
  * * USER
  * * MESSAGE
  * @typedef {string} ApplicationCommandType
- * @see {@link https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-types}
+ * @see {@link https:
  */
 exports.ApplicationCommandTypes = createEnum([null, 'CHAT_INPUT', 'USER', 'MESSAGE']);
 
@@ -1446,7 +1412,7 @@ exports.ApplicationCommandTypes = createEnum([null, 'CHAT_INPUT', 'USER', 'MESSA
  * * NUMBER
  * * ATTACHMENT
  * @typedef {string} ApplicationCommandOptionType
- * @see {@link https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-type}
+ * @see {@link https:
  */
 exports.ApplicationCommandOptionTypes = createEnum([
   null,
@@ -1468,7 +1434,7 @@ exports.ApplicationCommandOptionTypes = createEnum([
  * * ROLE
  * * USER
  * @typedef {string} ApplicationCommandPermissionType
- * @see {@link https://discord.com/developers/docs/interactions/application-commands#application-command-permissions-object-application-command-permission-type}
+ * @see {@link https:
  */
 exports.ApplicationCommandPermissionTypes = createEnum([null, 'ROLE', 'USER']);
 
@@ -1487,7 +1453,7 @@ exports.ApplicationCommandPermissionTypes = createEnum([null, 'ROLE', 'USER']);
  * * BOOLEAN_EQUAL
  * * BOOLEAN_NOT_EQUAL
  * @typedef {string} ApplicationRoleConnectionMetadataType
- * @see{@link https://discord.com/developers/docs/resources/application-role-connection-metadata#application-role-connection-metadata-object-application-role-connection-metadata-type}
+ * @see{@link https:
  */
 exports.ApplicationRoleConnectionMetadataTypes = createEnum([
   null,
@@ -1508,7 +1474,7 @@ exports.ApplicationRoleConnectionMetadataTypes = createEnum([
  * * KEYWORD_PRESET
  * * MENTION_SPAM
  * @typedef {string} AutoModerationRuleTriggerType
- * @see {@link https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-rule-object-trigger-types}
+ * @see {@link https:
  */
 exports.AutoModerationRuleTriggerTypes = createEnum([null, 'KEYWORD', null, 'SPAM', 'KEYWORD_PRESET', 'MENTION_SPAM']);
 
@@ -1519,7 +1485,7 @@ exports.AutoModerationRuleTriggerTypes = createEnum([null, 'KEYWORD', null, 'SPA
  * * KEYWORD_PRESET
  * * MENTION_SPAM
  * @typedef {string} AutoModerationRuleKeywordPresetType
- * @see {@link https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-rule-object-keyword-preset-types}
+ * @see {@link https:
  */
 exports.AutoModerationRuleKeywordPresetTypes = createEnum([null, 'PROFANITY', 'SEXUAL_CONTENT', 'SLURS']);
 /**
@@ -1528,7 +1494,7 @@ exports.AutoModerationRuleKeywordPresetTypes = createEnum([null, 'PROFANITY', 'S
  * * SEND_ALERT_MESSAGE
  * * TIMEOUT
  * @typedef {string} AutoModerationActionType
- * @see {@link https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-action-object-action-types}
+ * @see {@link https:
  */
 exports.AutoModerationActionTypes = createEnum([null, 'BLOCK_MESSAGE', 'SEND_ALERT_MESSAGE', 'TIMEOUT']);
 
@@ -1536,7 +1502,7 @@ exports.AutoModerationActionTypes = createEnum([null, 'BLOCK_MESSAGE', 'SEND_ALE
  * The type of an {@link AutoModerationRuleEventTypes} object:
  * * MESSAGE_SEND
  * @typedef {string} AutoModerationRuleEventType
- * @see {@link https://discord.com/developers/docs/resources/auto-moderation#auto-moderation-rule-object-event-types}
+ * @see {@link https:
  */
 
 exports.AutoModerationRuleEventTypes = createEnum([null, 'MESSAGE_SEND']);
@@ -1548,7 +1514,7 @@ exports.AutoModerationRuleEventTypes = createEnum([null, 'MESSAGE_SEND']);
  * * APPLICATION_COMMAND_AUTOCOMPLETE
  * * MODAL_SUBMIT
  * @typedef {string} InteractionType
- * @see {@link https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object-interaction-type}
+ * @see {@link https:
  */
 exports.InteractionTypes = createEnum([
   null,
@@ -1569,7 +1535,7 @@ exports.InteractionTypes = createEnum([
  * * APPLICATION_COMMAND_AUTOCOMPLETE_RESULT
  * * MODAL
  * @typedef {string} InteractionResponseType
- * @see {@link https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-response-object-interaction-callback-type}
+ * @see {@link https:
  */
 exports.InteractionResponseTypes = createEnum([
   null,
@@ -1595,7 +1561,7 @@ exports.InteractionResponseTypes = createEnum([
  * * MENTIONABLE_SELECT
  * * CHANNEL_SELECT
  * @typedef {string} MessageComponentType
- * @see {@link https://discord.com/developers/docs/interactions/message-components#component-object-component-types}
+ * @see {@link https:
  */
 exports.MessageComponentTypes = createEnum([
   null,
@@ -1617,7 +1583,7 @@ exports.MessageComponentTypes = createEnum([
  * * MENTIONABLE_SELECT
  * * CHANNEL_SELECT
  * @typedef {string} SelectMenuComponentType
- * @see {@link https://discord.com/developers/docs/interactions/message-components#component-object-component-types}
+ * @see {@link https:
  */
 exports.SelectMenuComponentTypes = createEnum([
   ...new Array(3).fill(null),
@@ -1637,7 +1603,7 @@ exports.SelectMenuComponentTypes = createEnum([
  * * DANGER
  * * LINK
  * @typedef {string} MessageButtonStyle
- * @see {@link https://discord.com/developers/docs/interactions/message-components#button-object-button-styles}
+ * @see {@link https:
  */
 exports.MessageButtonStyles = createEnum([null, 'PRIMARY', 'SECONDARY', 'SUCCESS', 'DANGER', 'LINK']);
 
@@ -1646,7 +1612,7 @@ exports.MessageButtonStyles = createEnum([null, 'PRIMARY', 'SECONDARY', 'SUCCESS
  * * NONE
  * * ELEVATED
  * @typedef {string} MFALevel
- * @see {@link https://discord.com/developers/docs/resources/guild#guild-object-mfa-level}
+ * @see {@link https:
  */
 exports.MFALevels = createEnum(['NONE', 'ELEVATED']);
 
@@ -1657,7 +1623,7 @@ exports.MFALevels = createEnum(['NONE', 'ELEVATED']);
  * * SAFE
  * * AGE_RESTRICTED
  * @typedef {string} NSFWLevel
- * @see {@link https://discord.com/developers/docs/resources/guild#guild-object-guild-nsfw-level}
+ * @see {@link https:
  */
 exports.NSFWLevels = createEnum(['DEFAULT', 'EXPLICIT', 'SAFE', 'AGE_RESTRICTED']);
 
@@ -1666,7 +1632,7 @@ exports.NSFWLevels = createEnum(['DEFAULT', 'EXPLICIT', 'SAFE', 'AGE_RESTRICTED'
  * * PUBLIC
  * * GUILD_ONLY
  * @typedef {string} PrivacyLevel
- * @see {@link https://discord.com/developers/docs/resources/stage-instance#stage-instance-object-privacy-level}
+ * @see {@link https:
  */
 exports.PrivacyLevels = createEnum([null, 'PUBLIC', 'GUILD_ONLY']);
 
@@ -1675,7 +1641,7 @@ exports.PrivacyLevels = createEnum([null, 'PUBLIC', 'GUILD_ONLY']);
  * * SHORT
  * * PARAGRAPH
  * @typedef {string} TextInputStyle
- * @see {@link https://discord.com/developers/docs/interactions/message-components#text-inputs-text-input-styles}
+ * @see {@link https:
  */
 exports.TextInputStyles = createEnum([null, 'SHORT', 'PARAGRAPH']);
 
@@ -1683,7 +1649,7 @@ exports.TextInputStyles = createEnum([null, 'SHORT', 'PARAGRAPH']);
  * Privacy level of a {@link GuildScheduledEvent} object:
  * * GUILD_ONLY
  * @typedef {string} GuildScheduledEventPrivacyLevel
- * @see {@link https://discord.com/developers/docs/resources/guild-scheduled-event#guild-scheduled-event-object-guild-scheduled-event-privacy-level}
+ * @see {@link https:
  */
 exports.GuildScheduledEventPrivacyLevels = createEnum([null, null, 'GUILD_ONLY']);
 
@@ -1694,7 +1660,7 @@ exports.GuildScheduledEventPrivacyLevels = createEnum([null, null, 'GUILD_ONLY']
  * * TIER_2
  * * TIER_3
  * @typedef {string} PremiumTier
- * @see {@link https://discord.com/developers/docs/resources/guild#guild-object-premium-tier}
+ * @see {@link https:
  */
 exports.PremiumTiers = createEnum(['NONE', 'TIER_1', 'TIER_2', 'TIER_3']);
 
@@ -1705,28 +1671,16 @@ exports.PremiumTiers = createEnum(['NONE', 'TIER_1', 'TIER_2', 'TIER_3']);
  * * COMPLETED
  * * CANCELED
  * @typedef {string} GuildScheduledEventStatus
- * @see {@link https://discord.com/developers/docs/resources/guild-scheduled-event#guild-scheduled-event-object-guild-scheduled-event-status}
+ * @see {@link https:
  */
 exports.GuildScheduledEventStatuses = createEnum([null, 'SCHEDULED', 'ACTIVE', 'COMPLETED', 'CANCELED']);
-
-/**
- * The entity type of a {@link GuildScheduledEvent}:
- * * NONE
- * * STAGE_INSTANCE
- * * VOICE
- * * EXTERNAL
- * @typedef {string} GuildScheduledEventEntityType
- * @see {@link https://discord.com/developers/docs/resources/guild-scheduled-event#guild-scheduled-event-object-guild-scheduled-event-entity-types}
- */
-exports.GuildScheduledEventEntityTypes = createEnum([null, 'STAGE_INSTANCE', 'VOICE', 'EXTERNAL']);
-/* eslint-enable max-len */
 
 /**
  * The camera video quality mode of a {@link VoiceChannel}:
  * * AUTO
  * * FULL
  * @typedef {string} VideoQualityMode
- * @see {@link https://discord.com/developers/docs/resources/channel#channel-object-video-quality-modes}
+ * @see {@link https:
  */
 exports.VideoQualityModes = createEnum([null, 'AUTO', 'FULL']);
 
@@ -1735,7 +1689,7 @@ exports.VideoQualityModes = createEnum([null, 'AUTO', 'FULL']);
  * * NORMAL
  * * BURST
  * @typedef {string} ReactionType
- * @see {@link https://discord.com/developers/docs/resources/channel#channel-object-video-quality-modes}
+ * @see {@link https:
  */
 exports.ReactionTypes = createEnum(['NORMAL', 'BURST']);
 
@@ -1744,7 +1698,7 @@ exports.ReactionTypes = createEnum(['NORMAL', 'BURST']);
  * * LATEST_ACTIVITY
  * * CREATION_DATE
  * @typedef {string} SortOrderType
- * @see {@link https://discord.com/developers/docs/resources/channel/#channel-object-sort-order-types}
+ * @see {@link https:
  */
 exports.SortOrderTypes = createEnum([null, 'LATEST_ACTIVITY', 'CREATION_DATE']);
 
@@ -1754,7 +1708,7 @@ exports.SortOrderTypes = createEnum([null, 'LATEST_ACTIVITY', 'CREATION_DATE']);
  * * LIST_VIEW
  * * GALLERY_VIEW
  * @typedef {string} ForumLayoutType
- * @see {@link https://discord.com/developers/docs/resources/channel/#channel-object-forum-layout-types}
+ * @see {@link https:
  */
 exports.ForumLayoutTypes = createEnum(['NOT_SET', 'LIST_VIEW', 'GALLERY_VIEW']);
 
@@ -1763,7 +1717,7 @@ exports.ForumLayoutTypes = createEnum(['NOT_SET', 'LIST_VIEW', 'GALLERY_VIEW']);
  * * DEFAULT
  * * IMAGE_ONLY_ANSWERS
  * @typedef {string} PollLayoutType
- * @see {@link https://docs.discord.sex/resources/message#poll-layout-type}
+ * @see {@link https:
  */
 exports.PollLayoutTypes = createEnum([null, 'DEFAULT', 'IMAGE_ONLY_ANSWERS']);
 
@@ -1776,7 +1730,7 @@ exports.PollLayoutTypes = createEnum([null, 'DEFAULT', 'IMAGE_ONLY_ANSWERS']);
  * * 4: PENDING_OUTGOING
  * * 5: IMPLICIT
  * @typedef {string} RelationshipType
- * @see {@link https://luna.gitlab.io/discord-unofficial-docs/relationships.html}
+ * @see {@link https:
  */
 
 exports.RelationshipTypes = createEnum([

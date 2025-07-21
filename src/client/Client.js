@@ -795,9 +795,6 @@ class Client extends BaseClient {
     if (!Array.isArray(options.partials)) {
       throw new TypeError('CLIENT_INVALID_OPTION', 'partials', 'an Array');
     }
-    if (typeof options.DMChannelVoiceStatusSync !== 'number' || isNaN(options.DMChannelVoiceStatusSync)) {
-      throw new TypeError('CLIENT_INVALID_OPTION', 'DMChannelVoiceStatusSync', 'a number');
-    }
     if (typeof options.waitGuildTimeout !== 'number' || isNaN(options.waitGuildTimeout)) {
       throw new TypeError('CLIENT_INVALID_OPTION', 'waitGuildTimeout', 'a number');
     }

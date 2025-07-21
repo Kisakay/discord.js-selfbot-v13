@@ -10,7 +10,6 @@ const Util = require('../util/Util');
 /**
  * Represents a guild channel from any of the following:
  * - {@link TextChannel}
- * - {@link VoiceChannel}
  * - {@link CategoryChannel}
  * - {@link NewsChannel}
  * - {@link StoreChannel}

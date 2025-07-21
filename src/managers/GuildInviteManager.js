@@ -89,32 +89,32 @@ class GuildInviteManager extends CachedManager {
    * @param {InviteResolvable|FetchInviteOptions|FetchInvitesOptions} [options] Options for fetching guild invite(s)
    * @returns {Promise<Invite|Collection<string, Invite>>}
    * @example
-   * // Fetch all invites from a guild
+   * 
    * guild.invites.fetch()
    *   .then(console.log)
    *   .catch(console.error);
    * @example
-   * // Fetch all invites from a guild without caching
+   * 
    * guild.invites.fetch({ cache: false })
    *   .then(console.log)
    *   .catch(console.error);
    * @example
-   * // Fetch all invites from a channel
+   * 
    * guild.invites.fetch({ channelId: '222197033908436994' })
    *   .then(console.log)
    *   .catch(console.error);
    * @example
-   * // Fetch a single invite
+   * 
    * guild.invites.fetch('bRCvFy9')
    *   .then(console.log)
    *   .catch(console.error);
    * @example
-   * // Fetch a single invite without checking cache
+   * 
    * guild.invites.fetch({ code: 'bRCvFy9', force: true })
    *   .then(console.log)
    *   .catch(console.error)
    * @example
-   * // Fetch a single invite without caching
+   * 
    * guild.invites.fetch({ code: 'bRCvFy9', cache: false })
    *   .then(console.log)
    *   .catch(console.error);
@@ -170,7 +170,7 @@ class GuildInviteManager extends CachedManager {
    * @param {CreateInviteOptions} [options={}] The options for creating the invite from a channel.
    * @returns {Promise<Invite>}
    * @example
-   * // Create an invite to a selected channel
+   * 
    * guild.invites.create('599942732013764608')
    *   .then(console.log)
    *   .catch(console.error);
