@@ -1,6 +1,6 @@
 {
   "name": "jsuistropuhqpourtoi",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "discord.js=selfbot-v13 with bun native ws support",
   "main": "./src/index.js",
   "types": "./typings/index.d.ts",
