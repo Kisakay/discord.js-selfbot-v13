@@ -166,7 +166,7 @@ class DiscordAuthWebsocket extends EventEmitter {
       .digest()
       .toString('base64')
       .replace(/\+/g, '-')
-      .replace(/\//)
+      .replace(/\//g, '_')
       .replace(/=+/, '')
       .replace(/\s+$/, '');
     this.#send(sendEvent.NONCE_PROOF, { proof: proof });
