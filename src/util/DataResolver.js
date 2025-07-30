@@ -32,7 +32,7 @@ class DataResolver extends null {
   static async resolveFile(resource) {
     if (Buffer.isBuffer(resource) || resource instanceof stream.Readable) return resource;
     if (typeof resource === 'string') {
-      if (/^https?:\/\//) {
+      if (/^https?:\/\//.test(resource)) {
         const res = await fetch(resource);
         if (res.ok) return res.body;
         else throw new DiscordError('FILE_NOT_FOUND', resource);
